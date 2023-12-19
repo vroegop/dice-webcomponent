@@ -8,8 +8,21 @@
 <body>
     <h1>Not rolled yet</h1>
 
-    <p>No options</p>
+    <p>No options, random look</p>
     <d6-die></d6-die>
+    <d6-die></d6-die>
+    <d6-die></d6-die>
+    <d6-die></d6-die>
+    <d6-die></d6-die>
+    <d6-die></d6-die>
+
+    <p>Preset value</p>
+    <d6-die initialvalue="1" bgcolor="black" dotcolor="white"></d6-die>
+    <d6-die initialvalue="2" bgcolor="black" dotcolor="white"></d6-die>
+    <d6-die initialvalue="3" bgcolor="black" dotcolor="white"></d6-die>
+    <d6-die initialvalue="4" bgcolor="black" dotcolor="white"></d6-die>
+    <d6-die initialvalue="5" bgcolor="black" dotcolor="white"></d6-die>
+    <d6-die initialvalue="6" bgcolor="black" dotcolor="white"></d6-die>
 
     <p>Custom colors</p>
     <d6-die bgcolor="gold" dotcolor="darkgoldenrod"></d6-die>
@@ -21,13 +34,33 @@
     <d6-die time="8s" bgcolor="red" dotcolor="black"></d6-die>
 
     <p>Glass effect</p>
-    <d6-die bgcolor="rgba(0, 0, 0, 0.6)"></d6-die>
-    <d6-die bgcolor="rgba(255, 0, 0, 0.6)"></d6-die>
+    <d6-die bgcolor="rgba(0, 0, 0, 0.6)" dotcolor="lightgrey"></d6-die>
+    <d6-die bgcolor="rgba(255, 0, 0, 0.6)" dotcolor="grey"></d6-die>
 
     <p>Stone effect</p>
     <d6-die bgcolor="linear-gradient(#333, #555, #555, #666, #444)" dotcolor="white"></d6-die>
     <d6-die bgcolor="linear-gradient(#ddd, #ccc, #ddd, #eee, #ddd)" dotcolor="white"></d6-die>
     <d6-die bgcolor="linear-gradient(gold, darkgoldenrod)" dotcolor="white"></d6-die>
+
+    <p>Disabled</p>
+    <d6-die allowedrolls="0"></d6-die>
+    <d6-die allowedrolls="0"></d6-die>
+    <d6-die allowedrolls="0" initialvalue="1"></d6-die>
+    <d6-die allowedrolls="0" initialvalue="2"></d6-die>
+    <d6-die allowedrolls="0" initialvalue="3"></d6-die>
+    <d6-die allowedrolls="0" initialvalue="4"></d6-die>
+    <d6-die allowedrolls="0" initialvalue="5"></d6-die>
+    <d6-die allowedrolls="0" initialvalue="6"></d6-die>
+
+    <p>Allow only one roll</p>
+    <d6-die allowedrolls="1"></d6-die>
+    <d6-die allowedrolls="1"></d6-die>
+    <d6-die allowedrolls="1" initialvalue="1"></d6-die>
+    <d6-die allowedrolls="1" initialvalue="2"></d6-die>
+    <d6-die allowedrolls="1" initialvalue="3"></d6-die>
+    <d6-die allowedrolls="1" initialvalue="4"></d6-die>
+    <d6-die allowedrolls="1" initialvalue="5"></d6-die>
+    <d6-die allowedrolls="1" initialvalue="6"></d6-die>
 
     <p>Custom size</p>
     <div style="margin:25px 10px;">
@@ -37,6 +70,15 @@
         <d6-die bgcolor="rgba(255, 255, 255, 0.85)" dotcolor="rgba(255, 50, 50, 0.9)" style="width: 100px; height: 100px;"></d6-die>
     </div>
 
+    <button id="all">Roll all</button>
+    <script>
+        // Roll all dice
+        document.getElementById('all').addEventListener('click', () => {
+            [...document.getElementsByTagName('d6-die')].forEach(e => e.click());
+        })
+    </script>
+
+    <!-- all HTML needed for the dicetray -->
     <p>Dicetray (click the red button)</p>
     <div id="tray" class="dicetray" style="position: relative; border: 2px solid saddlebrown; background-color: lightgreen; border-radius: 50%; width: 150px; height: 150px;">
         <button id="tray-button" style="background-color:red; width:30px; height: 30px; border-radius: 50%; position:absolute; left: 50%; top:50%; transform:translate(-50%, -50%);text-align: center;">0</button>
@@ -48,16 +90,8 @@
         <d6-die style="position:absolute;top:50%;left:70%;width:30px;height:30px;"></d6-die>
     </div>
 
-    <button id="all">Roll all</button>
-
-    <script src="./d6-die.js"></script>
     <script>
-        // Roll all dice
-        document.getElementById('all').addEventListener('click', () => {
-            [...document.getElementsByTagName('d6-die')].forEach(e => e.click());
-        })
-
-        // Role the dicetray and show the total
+        // All JS needed for the dicetray
         document.getElementById('tray-button').addEventListener('click', () => {
             let total = 0;
             [...document.getElementById('tray').getElementsByTagName('d6-die')].forEach(e => e.click());
@@ -65,5 +99,7 @@
             document.getElementById('tray-button').innerText = total;
         })
     </script>
+
+    <script src="./d6-die.js"></script>
 </body>
 </html>

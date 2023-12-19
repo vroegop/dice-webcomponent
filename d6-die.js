@@ -5,19 +5,39 @@ class D6Die extends HTMLElement {
 
     connectedCallback() {
         this.lastNumber = 0;
+        this.isDisabled = this.getAttribute('allowedrolls') !== '0';
         this.randomBackgrounds = ['green', 'rgba(255, 255, 0, 0.9)', 'linear-gradient(gold, darkgoldenrod)', 'linear-gradient(#ddd, #ccc, #ddd, #eee, #ddd)', 'linear-gradient(#333, #555, #555, #666, #444)', 'rgba(255, 255, 255, 0.85)'];
         this.randomDots = ['gold', 'black', 'white', 'white', 'white', 'rgba(255, 50, 50, 0.9)'];
+        this.allowedRolls = this.getAttribute('allowedrolls') ?? 10000;
+        this.updateStyle();
+        this.checkDisabled(0);
 
         this.attachShadow({ mode: 'open' });
         this.render();
         this.updateStyle();
+
+        const initialValue = this.getAttribute('initialvalue');
+        initialValue && this.rollRandom(initialValue);
     }
 
-    rollRandom() {
-        const randomNumber = Math.floor(Math.random() * 6) + 1;
+    rollRandom(value) {
+        const randomNumber = +value || Math.floor(Math.random() * 6) + 1;
         this.dispatchEvent(new CustomEvent('selection', { detail: randomNumber }));
         this.shadowRoot.querySelector(`#roll-${randomNumber}`).checked = true;
         this.setAttribute('title', randomNumber);
+    }
+
+    checkDisabled(timeout) {
+        this.isDisabled = this.allowedRolls < 1;
+
+        if (this.isDisabled) {
+            setTimeout(() => {
+                if (this.isDisabled) {
+                    this.style.setProperty('--die-color', 'darkgrey');
+                    this.style.setProperty('--dot-color', 'grey');
+                }
+            }, timeout);
+        }
     }
 
     updateStyle() {
@@ -203,7 +223,11 @@ class D6Die extends HTMLElement {
   </style>
         `;
 
-        this.addEventListener('click', () => this.rollRandom());
+        this.addEventListener('click', () => {
+            this.isDisabled || this.rollRandom();
+            this.allowedRolls -= 1;
+            this.checkDisabled(+this.time.split('s')[0] * 1000);
+        });
     }
 }
 
