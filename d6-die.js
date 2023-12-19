@@ -1,9 +1,13 @@
 class D6Die extends HTMLElement {
-    lastNumber = 0;
-    randomBackgrounds = ['green', 'rgba(255, 255, 0, 0.9)', 'linear-gradient(gold, darkgoldenrod)', 'linear-gradient(#ddd, #ccc, #ddd, #eee, #ddd)', 'linear-gradient(#333, #555, #555, #666, #444)', 'rgba(255, 255, 255, 0.85)'];
-    randomDots = ['gold', 'black', 'white', 'white', 'white', 'rgba(255, 50, 50, 0.9)'];
     constructor() {
         super();
+    }
+
+    connectedCallback() {
+        this.lastNumber = 0;
+        this.randomBackgrounds = ['green', 'rgba(255, 255, 0, 0.9)', 'linear-gradient(gold, darkgoldenrod)', 'linear-gradient(#ddd, #ccc, #ddd, #eee, #ddd)', 'linear-gradient(#333, #555, #555, #666, #444)', 'rgba(255, 255, 255, 0.85)'];
+        this.randomDots = ['gold', 'black', 'white', 'white', 'white', 'rgba(255, 50, 50, 0.9)'];
+
         this.attachShadow({ mode: 'open' });
         this.render();
         this.updateStyle();
