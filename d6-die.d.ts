@@ -8,7 +8,7 @@ declare class D6Die extends HTMLElement {
     dotcolor: string;
 
     constructor();
-
+    connectedCallback(): void;
     rollRandom(): void;
     updateStyle(): void;
     render(): void;
