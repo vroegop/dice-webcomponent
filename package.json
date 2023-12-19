@@ -1,0 +1,25 @@
+{
+  "name": "d6-webcomponent",
+  "version": "1.0.0",
+  "description": "Allows easy creation of a working D6 die without external libraries or dependencies",
+  "main": "d6-die.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vroegop/d6-webcomponent.git"
+  },
+  "keywords": [
+    "d6",
+    "dnd",
+    "die",
+    "dice"
+  ],
+  "author": "Randy Vroegop",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vroegop/d6-webcomponent/issues"
+  },
+  "homepage": "https://github.com/vroegop/d6-webcomponent#readme"
+}
