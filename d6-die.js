@@ -13,15 +13,15 @@ class D6Die extends HTMLElement {
         this.render();
         // Size is a CSS variable but can only be determined after rendering. This will cause an animation.
         this.setSize();
-        // Call rollDice once with this.lastNumber to set a default value
-        this.rollDice(this.lastNumber);
+        // Call rollDie once with this.lastNumber to set a default value
+        this.rollDie(this.lastNumber);
 
-        this.addEventListener('click', () => this.rollDice());
+        this.addEventListener('click', () => this.rollDie());
     }
 
     setInitialValues() {
-        this.diecolor = this.getAttribute('bgcolor') || 'linear-gradient(#333, #555, #555, #666, #444)';
-        this.dotcolor = this.getAttribute('dotcolor') || '#ccc';
+        this.diecolor = this.getAttribute('bgcolor') || '#ff1e1e';
+        this.dotcolor = this.getAttribute('dotcolor') || '#4b4b4b';
         this.time = this.getAttribute('time') || '2';
         this.animate = this.getAttribute('animate') === '';
         this.lastNumber = +(this.getAttribute('initialvalue') || 0);
@@ -32,8 +32,8 @@ class D6Die extends HTMLElement {
         this.totalRolls = 0;
     }
 
-    rollDice(value) {
-        // If a default value is set, we don't count it as a roll and only animate the dice to that value
+    rollDie(value) {
+        // If a default value is set, we don't count it as a roll and only animate the die to that value
         if (typeof value === 'number') {
             // Set the title so hovering the cursor shows the value as a number
             this.setAttribute('title', this.lastNumber);
@@ -46,18 +46,18 @@ class D6Die extends HTMLElement {
         }
         // If no default value is set, we will simply roll a new value and count the allowed rolls
         if (!this.isDisabled) {
-            // Determine new dice value, random but between the min and max value specified
-            this.lastNumber = value || Math.floor(Math.random() * (this.maxrollvalue - this.minrollvalue)) + this.minrollvalue;
+            // Determine new die value, random but between the min and max value specified
+            this.lastNumber = value || Math.floor(Math.random() * (this.maxrollvalue - this.minrollvalue)) + this.minrollvalue + 1;
             // Dispatch an event so external objects know what the throw was
             this.dispatchEvent(new CustomEvent('selection', {detail: this.lastNumber}));
             // Set the title so hovering the cursor shows the value as a number
             this.setAttribute('title', this.lastNumber);
-            // Update the HTML to animate the dice to the new value
+            // Update the HTML to animate the die to the new value
             this.shadowRoot.getElementById('d6').classList = [`roll-${this.lastNumber}`];
             // Bookkeeping
             this.allowedRolls -= 1;
             this.totalRolls ++;
-            // Make sure the dice always rolls, also if the same value is thrown twice
+            // Make sure the die always rolls, also if the same value is thrown twice
             this.style.setProperty('--total-rolls', this.totalRolls + 'turn');
         }
         this.isDisabled = this.allowedRolls < 1;
@@ -115,6 +115,7 @@ ${this.renderCss()}
   transition: transform var(--roll-time) ease-out, scale 0.2s ease-out;
   transform-style: preserve-3d;
   transform-origin: center center calc((var(--die-size) / 2) * -1);
+  perspective: 200cm;
 }
 
 .face {
