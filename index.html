@@ -6,7 +6,7 @@
     <style>#all {position: absolute; left: 0; top: 0;}</style>
 </head>
 <body>
-    <p>No options, random look</p>
+    <p>No options</p>
     <d6-die></d6-die>
     <d6-die></d6-die>
     <d6-die></d6-die>
@@ -28,8 +28,8 @@
     <d6-die bgcolor="cyan" dotcolor="black"></d6-die>
 
     <p>Custom timers</p>
-    <d6-die time="8s" bgcolor="white" dotcolor="black"></d6-die>
-    <d6-die time="8s" bgcolor="red" dotcolor="black"></d6-die>
+    <d6-die time="8" bgcolor="white" dotcolor="black"></d6-die>
+    <d6-die time="8" bgcolor="red" dotcolor="black"></d6-die>
 
     <p>Glass effect</p>
     <d6-die bgcolor="rgba(0, 0, 0, 0.6)" dotcolor="lightgrey"></d6-die>
@@ -50,7 +50,7 @@
     <d6-die allowedrolls="0" initialvalue="5"></d6-die>
     <d6-die allowedrolls="0" initialvalue="6"></d6-die>
 
-    <p>Allow only one roll</p>
+    <p>Allow only one roll, then disable</p>
     <d6-die allowedrolls="1"></d6-die>
     <d6-die allowedrolls="1"></d6-die>
     <d6-die allowedrolls="1" initialvalue="1"></d6-die>
@@ -59,6 +59,11 @@
     <d6-die allowedrolls="1" initialvalue="4"></d6-die>
     <d6-die allowedrolls="1" initialvalue="5"></d6-die>
     <d6-die allowedrolls="1" initialvalue="6"></d6-die>
+
+    <p>Min or Max value applied. Dice outcomes: >= 4 | <=3 | ==4</p>
+    <d6-die minrollvalue="4"></d6-die>
+    <d6-die maxrollvalue="3"></d6-die>
+    <d6-die minrollvalue="4" maxrollvalue="4"></d6-die>
 
     <p>Custom size</p>
     <div style="margin:25px 10px;">

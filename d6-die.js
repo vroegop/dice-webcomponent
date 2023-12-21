@@ -4,30 +4,62 @@ class D6Die extends HTMLElement {
     }
 
     connectedCallback() {
-        this.lastNumber = 0;
-        this.isDisabled = this.getAttribute('allowedrolls') !== '0';
-        this.randomBackgrounds = ['green', 'rgba(255, 255, 0, 0.9)', 'linear-gradient(gold, darkgoldenrod)', 'linear-gradient(#ddd, #ccc, #ddd, #eee, #ddd)', 'linear-gradient(#333, #555, #555, #666, #444)', 'rgba(255, 255, 255, 0.85)'];
-        this.randomDots = ['gold', 'black', 'white', 'white', 'white', 'rgba(255, 50, 50, 0.9)'];
-        this.allowedRolls = this.getAttribute('allowedrolls') ?? 10000;
-        this.updateStyle();
-        this.checkDisabled(0);
-
-        this.attachShadow({ mode: 'open' });
+        this.attachShadow({mode: 'open'});
+        // Read custom properties users can set
+        this.setInitialValues();
+        // Settings these variables before rendering makes sure no animations happen on load
+        this.setStyle();
+        // Render HTML and CSS
         this.render();
-        this.updateStyle();
+        // Size is a CSS variable but can only be determined after rendering. This will cause an animation.
+        this.setSize();
+        // Call rollDice once with this.lastNumber to set a default value
+        this.rollDice(this.lastNumber);
 
-        const initialValue = this.getAttribute('initialvalue');
-        initialValue && this.rollRandom(initialValue);
+        this.addEventListener('click', () => this.rollDice());
     }
 
-    rollRandom(value) {
-        const randomNumber = +value || Math.floor(Math.random() * 6) + 1;
-        this.dispatchEvent(new CustomEvent('selection', { detail: randomNumber }));
-        this.shadowRoot.querySelector(`#roll-${randomNumber}`).checked = true;
-        this.setAttribute('title', randomNumber);
+    setInitialValues() {
+        this.diecolor = this.getAttribute('bgcolor') || 'linear-gradient(#333, #555, #555, #666, #444)';
+        this.dotcolor = this.getAttribute('dotcolor') || '#ccc';
+        this.time = this.getAttribute('time') || '2';
+        this.animate = this.getAttribute('animate') === '';
+        this.lastNumber = +(this.getAttribute('initialvalue') || 0);
+        this.allowedRolls = +(this.getAttribute('allowedrolls') ?? 10000);
+        this.minrollvalue = +(this.getAttribute('minrollvalue') ?? 1);
+        this.maxrollvalue = +(this.getAttribute('maxrollvalue') ?? 6);
+        this.isDisabled = this.allowedRolls < 1;
+        this.totalRolls = 0;
     }
 
-    checkDisabled(timeout) {
+    rollDice(value) {
+        // If a default value is set, we don't count it as a roll and only animate the dice to that value
+        if (typeof value === 'number') {
+            // Set the title so hovering the cursor shows the value as a number
+            this.setAttribute('title', this.lastNumber);
+            this.shadowRoot.getElementById('d6').classList = [`roll-${this.lastNumber}`];
+            if (this.isDisabled) {
+                this.style.setProperty('--die-color', 'darkgrey');
+                this.style.setProperty('--dot-color', 'grey');
+            }
+            return;
+        }
+        // If no default value is set, we will simply roll a new value and count the allowed rolls
+        if (!this.isDisabled) {
+            // Determine new dice value, random but between the min and max value specified
+            this.lastNumber = value || Math.floor(Math.random() * (this.maxrollvalue - this.minrollvalue)) + this.minrollvalue;
+            // Dispatch an event so external objects know what the throw was
+            this.dispatchEvent(new CustomEvent('selection', {detail: this.lastNumber}));
+            // Set the title so hovering the cursor shows the value as a number
+            this.setAttribute('title', this.lastNumber);
+            // Update the HTML to animate the dice to the new value
+            this.shadowRoot.getElementById('d6').classList = [`roll-${this.lastNumber}`];
+            // Bookkeeping
+            this.allowedRolls -= 1;
+            this.totalRolls ++;
+            // Make sure the dice always rolls, also if the same value is thrown twice
+            this.style.setProperty('--total-rolls', this.totalRolls + 'turn');
+        }
         this.isDisabled = this.allowedRolls < 1;
 
         if (this.isDisabled) {
@@ -36,198 +68,168 @@ class D6Die extends HTMLElement {
                     this.style.setProperty('--die-color', 'darkgrey');
                     this.style.setProperty('--dot-color', 'grey');
                 }
-            }, timeout);
+            }, this.time * 1000);
         }
     }
 
-    updateStyle() {
-        const randomNumber = Math.floor(Math.random() * 6);
-        this.size = (this.clientHeight || 50) + 'px';
-        this.time = this.getAttribute('time') || '2s';
-        this.diecolor = this.getAttribute('bgcolor') || this.randomBackgrounds[randomNumber];
-        this.dotcolor = this.getAttribute('dotcolor') || this.randomDots[randomNumber];
-
-        this.style.setProperty('--die-size', this.size);
-        this.style.setProperty('--roll-time', this.time);
+    setStyle() {
+        this.style.setProperty('--roll-time', this.time + 's');
         this.style.setProperty('--die-color', this.diecolor);
         this.style.setProperty('--dot-color', this.dotcolor);
+        this.style.setProperty('--total-rolls', this.totalRolls);
+    }
+
+    setSize() {
+        this.style.setProperty('--die-size',  (this.clientHeight || 50) + 'px');
     }
 
     render() {
         this.shadowRoot.innerHTML = `
-  <div class="die">
-    <input type="radio" id="roll-1" name="roll" value="1">
-    <input type="radio" id="roll-2" name="roll" value="2">
-    <input type="radio" id="roll-3" name="roll" value="3">
-    <input type="radio" id="roll-4" name="roll" value="4">
-    <input type="radio" id="roll-5" name="roll" value="5">
-    <input type="radio" id="roll-6" name="roll" value="6">
+<div id="d6" ${this.animate ? 'animate' : ''}>
+    <div class="face face-1"></div>
+    <div class="face face-2"></div>
+    <div class="face face-3"></div>
+    <div class="face face-4"></div>
+    <div class="face face-5"></div>
+    <div class="face face-6"></div>
+</div>
 
-    <div class="wrapper">
-      <div class="dice">
-        <div class="face face-1"></div>
-        <div class="face face-2"></div>
-        <div class="face face-3"></div>
-        <div class="face face-4"></div>
-        <div class="face face-5"></div>
-        <div class="face face-6"></div>
-      </div>
-    </div>
-  </div>
-  
-  <style>    
-    :host {
-      position:relative;
-      display:inline-block;
-      width:50px;
-      height: 50px;
-    }
-    
-    .die {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: var(--die-size);
-      height: var(--die-size);
-    }
-    
-    [name=roll] {
-      display: none;
-    }
-    
-    .wrapper {
-      width: var(--die-size);
-      height: var(--die-size);
-      margin: 0 auto;
-      perspective: calc(var(--die-size) * 2);
-      position: relative;
-      pointer-events: none;
-      transform-style: preserve-3d;
-    }
-    
-    .dice {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      margin-top: calc((var(--die-size) / 2) * -1);
-      margin-left: calc((var(--die-size) / 2) * -1);
-      height: calc(var(--die-size));
-      width: calc(var(--die-size));
-      transition: transform var(--roll-time) ease-out;
-      transform-style: preserve-3d;
-      transform-origin: center center calc((var(--die-size) / 2) * -1);
-      pointer-events: none;
-    }
-    
-    .face {
-      position: absolute;
-      width: calc(var(--die-size));
-      height: calc(var(--die-size));
-      box-shadow: 0 0 15px rgba(100, 100, 100, 0.5);
-      background: var(--die-color);
-    }
-    
-    
-    .face:after {
-      content: "";
-      position: absolute;
-      width: calc(var(--die-size) / 5);
-      height: calc(var(--die-size) / 5);
-      border-radius: 50%;
-      background: var(--dot-color);
-      left: 25%;
-      top: 25%;
-      transform: translate(-50%, -50%);
-    }
-    
-    .face-1:after {
-      left: 50%;
-      top: 50%;
-    }
-    
-    .face-2:after {
-      box-shadow: calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--dot-color);
-    }
-    
-    .face-3:after {
-      box-shadow: calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--dot-color), calc(var(--die-size) / 4) calc(var(--die-size) / 4) var(--dot-color);
-    }
-    
-    .face-4:after {
-      box-shadow: 0 calc(var(--die-size) / 2) var(--dot-color), calc(var(--die-size) / 2) 0 var(--dot-color), calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--dot-color);
-    }
-    
-    .face-5:after {
-      box-shadow: 0 calc(var(--die-size) / 2) var(--dot-color), calc(var(--die-size) / 2) 0 var(--dot-color), calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--dot-color), calc(var(--die-size) / 4) calc(var(--die-size) / 4) var(--dot-color);
-    }
-    
-    .face-6:after {
-      box-shadow: 0 calc(var(--die-size) / 2) var(--dot-color), calc(var(--die-size) / 2) 0 var(--dot-color), calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--dot-color), 0 calc(var(--die-size) / 4) var(--dot-color), calc(var(--die-size) / 2) calc(var(--die-size) / 4) var(--dot-color);
-    }
-    
-    .face-1 {
-      transform: rotateY(180deg);
-    }
-    
-    .face-2 {
-      transform-origin: left center;
-      transform: rotateY(-90deg);
-    }
-    
-    .face-3 {
-      transform-origin: top center;
-      transform: rotateX(90deg);
-    }
-    
-    .face-4 {
-      transform-origin: bottom center;
-      transform: rotateX(-90deg);
-    }
-    
-    .face-5 {
-      transform-origin: right center;
-      transform: rotateY(90deg);
-    }
-    
-    .face-6 {
-      transform: translateZ(calc(var(--die-size)));
-    }
-    
-    .wrapper > .dice {
-      transform: rotateX(2.6turn) rotateY(2.1turn) rotateZ(0) translateZ(calc((var(--die-size)) * -1));
-    }
-    
-    #roll-1:checked ~ .wrapper > .dice {
-      transform: rotateX(1turn) rotateY(-1.5turn) rotateZ(0) translateZ(calc((var(--die-size)) * -1));
-    }
-    
-    #roll-2:checked ~ .wrapper > .dice {
-      transform: rotateX(2turn) rotateY(2.25turn) rotateZ(0) translateZ(calc((var(--die-size)) * -1));
-    }
-    
-    #roll-3:checked ~ .wrapper > .dice {
-      transform: rotateX(1.75turn) rotateY(2turn) rotateZ(0) translateZ(calc((var(--die-size)) * -1)) !important;
-    }
-    
-    #roll-4:checked ~ .wrapper > .dice {
-      transform: rotateX(3.25turn) rotateY(-1turn) rotateZ(0) translateZ(calc((var(--die-size)) * -1)) !important;
-    }
-    
-    #roll-5:checked ~ .wrapper > .dice {
-      transform: rotateX(2turn) rotateY(1.75turn) rotateZ(0) translateZ(calc((var(--die-size)) * -1)) !important;
-    }
-    
-    #roll-6:checked ~ .wrapper > .dice {
-      transform: rotateX(1turn) rotateY(2turn) rotateZ(0) translateZ(calc((var(--die-size)) * -1)) !important;
-    }
-  </style>
+${this.renderCss()}
         `;
+    }
 
-        this.addEventListener('click', () => {
-            this.isDisabled || this.rollRandom();
-            this.allowedRolls -= 1;
-            this.checkDisabled(+this.time.split('s')[0] * 1000);
-        });
+    renderCss() {
+        return `
+<style>    
+:host {
+  position:relative;
+  display:inline-block;
+  width:50px;
+  height: 50px;
+  --die-size: 50px;
+}
+
+#d6 {
+  height: var(--die-size);
+  width: var(--die-size);
+  transition: transform var(--roll-time) ease-out, scale 0.2s ease-out;
+  transform-style: preserve-3d;
+  transform-origin: center center calc((var(--die-size) / 2) * -1);
+}
+
+.face {
+  position: absolute;
+  width: calc(var(--die-size));
+  height: calc(var(--die-size));
+  box-shadow: 0 0 15px rgba(100, 100, 100, 0.5);
+  background: var(--die-color);
+}
+
+
+.face:after {
+  content: "";
+  position: absolute;
+  width: calc(var(--die-size) / 5);
+  height: calc(var(--die-size) / 5);
+  border-radius: 50%;
+  background: var(--dot-color);
+  left: 25%;
+  top: 25%;
+  transform: translate(-50%, -50%);
+}
+
+.face-1:after {
+  left: 50%;
+  top: 50%;
+}
+
+.face-2:after {
+  box-shadow: calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--dot-color);
+}
+
+.face-3:after {
+  box-shadow: calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--dot-color), calc(var(--die-size) / 4) calc(var(--die-size) / 4) var(--dot-color);
+}
+
+.face-4:after {
+  box-shadow: 0 calc(var(--die-size) / 2) var(--dot-color), calc(var(--die-size) / 2) 0 var(--dot-color), calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--dot-color);
+}
+
+.face-5:after {
+  box-shadow: 0 calc(var(--die-size) / 2) var(--dot-color), calc(var(--die-size) / 2) 0 var(--dot-color), calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--dot-color), calc(var(--die-size) / 4) calc(var(--die-size) / 4) var(--dot-color);
+}
+
+.face-6:after {
+  box-shadow: 0 calc(var(--die-size) / 2) var(--dot-color), calc(var(--die-size) / 2) 0 var(--dot-color), calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--dot-color), 0 calc(var(--die-size) / 4) var(--dot-color), calc(var(--die-size) / 2) calc(var(--die-size) / 4) var(--dot-color);
+}
+
+.face-1 {
+  transform: rotateY(180deg);
+}
+
+.face-2 {
+  transform-origin: left center;
+  transform: rotateY(-90deg);
+}
+
+.face-3 {
+  transform-origin: top center;
+  transform: rotateX(90deg);
+}
+
+.face-4 {
+  transform-origin: bottom center;
+  transform: rotateX(-90deg);
+}
+
+.face-5 {
+  transform-origin: right center;
+  transform: rotateY(90deg);
+}
+
+.face-6 {
+  transform: translateZ(calc(var(--die-size)));
+}
+
+#d6 {
+    transform: rotateX(0.12turn) rotateY(0.12turn) rotateZ(0) translateZ(calc((var(--die-size)) * -1));
+}
+
+#d6:hover {
+  scale: 1.1;
+  cursor: grab;
+}
+
+#d6:active {
+  scale: 1.2;
+  cursor: grabbing;
+}
+
+#d6.roll-1 {
+  transform: rotateX(1turn) rotateY(1.5turn) rotateZ(var(--total-rolls)) translateZ(calc((var(--die-size)) * -1));
+}
+
+#d6.roll-2 {
+  transform: rotateX(1turn) rotateY(1.25turn) rotateZ(var(--total-rolls)) translateZ(calc((var(--die-size)) * -1));
+}
+
+#d6.roll-3 {
+  transform: rotateX(1.75turn) rotateY(1turn) rotateZ(var(--total-rolls)) translateZ(calc((var(--die-size)) * -1)) !important;
+}
+
+#d6.roll-4 {
+  transform: rotateX(1.25turn) rotateY(1turn) rotateZ(var(--total-rolls)) translateZ(calc((var(--die-size)) * -1)) !important;
+}
+
+#d6.roll-5 {
+  transform: rotateX(1turn) rotateY(1.75turn) rotateZ(var(--total-rolls)) translateZ(calc((var(--die-size)) * -1)) !important;
+}
+
+#d6.roll-6 {
+  transform: rotateX(1turn) rotateY(1turn) rotateZ(var(--total-rolls)) translateZ(calc((var(--die-size)) * -1)) !important;
+}
+</style>
+`
     }
 }
 
