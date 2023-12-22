@@ -20,7 +20,7 @@ class D6Die extends HTMLElement {
     }
 
     setInitialValues() {
-        this.diecolor = this.getAttribute('bgcolor') || '#ff1e1e';
+        this.diecolor = this.getAttribute('bgcolor') || 'goldenrod';
         this.dotcolor = this.getAttribute('dotcolor') || '#4b4b4b';
         this.time = this.getAttribute('time') || '2';
         this.animate = this.getAttribute('animate') === '';
@@ -106,7 +106,6 @@ ${this.renderCss()}
   display:inline-block;
   width:50px;
   height: 50px;
-  --die-size: 50px;
 }
 
 #d6 {

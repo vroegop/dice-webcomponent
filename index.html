@@ -12,6 +12,12 @@
     <p>D20</p>
     <d20-die style="width:180px;height:180px;"></d20-die>
 
+    <p>D10</p>
+    <d10-die style="width:200px;height:200px;"></d10-die>
+
+    <p>D4</p>
+    <d4-die style="width:200px;height:200px;"></d4-die>
+
 
     <button id="all">Roll all</button>
     <script>
@@ -23,11 +29,12 @@
 
     <!-- all HTML needed for the dicetray -->
     <p>Dicetray (click the red center)</p>
-    <div id="tray" class="dicetray" style="position: relative; border: 2px solid saddlebrown; background-color: lightgreen; border-radius: 50%; width: 150px; height: 150px;">
+    <div id="tray" class="dicetray" style="position: relative; border: 2px solid saddlebrown; background-color: lightgreen; border-radius: 50%; width: 300px; height: 300px;">
         <button id="tray-button" style="background-color:red; width:30px; height: 30px; border-radius: 50%; position:absolute; left: 50%; top:50%; transform:translate(-50%, -50%);text-align: center;">0</button>
 
         <d6-die style="position:absolute;top:70%;left:50%;width:30px;height:30px;"></d6-die>
-        <d20-die style="position:absolute;top:10%;left:10%;width:60px;height:60px;"></d20-die>
+        <d10-die style="position:absolute;top:20%;left:60%;width:90px;height:90px;"></d10-die>
+        <d20-die style="position:absolute;top:10%;left:10%;width:110px;height:110px;"></d20-die>
     </div>
 
     <script>
@@ -36,6 +43,8 @@
             let total = 0;
             [...document.getElementById('tray').getElementsByTagName('d6-die')].forEach(e => e.click());
             [...document.getElementById('tray').getElementsByTagName('d6-die')].forEach(e => total += +e.getAttribute('title'));
+            [...document.getElementById('tray').getElementsByTagName('d10-die')].forEach(e => e.click());
+            [...document.getElementById('tray').getElementsByTagName('d10-die')].forEach(e => total += +e.getAttribute('title'));
             [...document.getElementById('tray').getElementsByTagName('d20-die')].forEach(e => e.click());
             [...document.getElementById('tray').getElementsByTagName('d20-die')].forEach(e => total += +e.getAttribute('title'));
             document.getElementById('tray-button').innerText = total;
@@ -44,5 +53,7 @@
 
     <script src="./d6-die.js"></script>
     <script src="./d20-die.js"></script>
+    <script src="./d10-die.js"></script>
+    <script src="d8-d4-die.js"></script>
 </body>
 </html>
