@@ -3,30 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <title>Demo D6</title>
-    <style>#all {position: absolute; left: 0; top: 0;}</style>
+    <style>
+    * {
+        font-family: arial;
+    }
+
+    body {
+        background-color: #666;
+        color: white;
+    }
+
+    .inline {
+        display:inline-block;
+    }</style>
 </head>
 <body>
 <div class="wrapper">
-<die-3d></die-3d>
+
+    <h1 title="The maxrollvalue attribute determines the die style. You can also use minrollvalue. If you choose values between two dice only the outcome is adjusted, not the die. < 1 and > 20 causes problems." style="cursor: help;">Dice defaults</h1>
+    <die-3d></die-3d>
     <die-3d maxrollvalue="12"></die-3d>
     <die-3d maxrollvalue="10"></die-3d>
     <die-3d maxrollvalue="8"></die-3d>
     <die-3d maxrollvalue="6"></die-3d>
     <die-3d maxrollvalue="4"></die-3d>
+
+    <div>
+        <h1 title="The initialvalue attribute determines the default value." style="cursor: help;">Preset value</h1>
+        <div style="display: inline-block; margin: 0 100px 0 0;">
+            <div>
+                <die-3d initialvalue="20"></die-3d>
+                <die-3d initialvalue="10"></die-3d>
+                <die-3d initialvalue="1"></die-3d>
+            </div>
+            <div>
+                <die-3d maxrollvalue="12" initialvalue="12"></die-3d>
+                <die-3d maxrollvalue="12" initialvalue="11"></die-3d>
+                <die-3d maxrollvalue="12" initialvalue="10"></die-3d>
+            </div>
+            <div>
+                <die-3d maxrollvalue="10" initialvalue="10"></die-3d>
+                <die-3d maxrollvalue="10" initialvalue="9"></die-3d>
+                <die-3d maxrollvalue="10" initialvalue="8"></die-3d>
+            </div>
+        </div>
+        <div style="display: inline-block;">
+            <div>
+                <die-3d maxrollvalue="8" initialvalue="8"></die-3d>
+                <die-3d maxrollvalue="8" initialvalue="7"></die-3d>
+                <die-3d maxrollvalue="8" initialvalue="6"></die-3d>
+            </div>
+            <div>
+                <die-3d maxrollvalue="6" initialvalue="6"></die-3d>
+                <die-3d maxrollvalue="6" initialvalue="5"></die-3d>
+                <die-3d maxrollvalue="6" initialvalue="4"></die-3d>
+            </div>
+            <div>
+                <die-3d maxrollvalue="4" initialvalue="4"></die-3d>
+                <die-3d maxrollvalue="4" initialvalue="3"></die-3d>
+                <die-3d maxrollvalue="4" initialvalue="1"></die-3d>
+            </div>
+        </div>
+    </div>
+
+    <h1 title="Note gradients only work on D6 due to the use of triangles in other dies. D10 and D6 don't have different even-odd styles." style="cursor: help;">Custom Colors</h1>
+    <die-3d bgcoloreven="#333" bgcolorodd="#444" dotcolor="#bbb"></die-3d>
+    <die-3d bgcoloreven="#0f0" bgcolorodd="#0e0" dotcolor="darkgoldenrod" maxrollvalue="12"></die-3d>
+    <die-3d bgcolor="#77f" dotcolor="#fff" maxrollvalue="10"></die-3d>
+    <die-3d bgcoloreven="#f00" bgcolorodd="#e00" dotcolor="#fff" maxrollvalue="8"></die-3d>
+    <die-3d bgcoloreven="linear-gradient(#777, #444, #666, #555, #666, #444, #444, #777" dotcolor="goldenrod" maxrollvalue="6"></die-3d>
+    <die-3d bgcoloreven="#ddd" bgcolorodd="#ccc" dotcolor="#666" maxrollvalue="4"></die-3d>
+
+    <h1 title="Transparency is always set through rgba." style="cursor: help;">Glass effect</h1>
+    <die-3d bgcoloreven="rgba(60, 60, 60, 0.8)" bgcolorodd="rgba(80, 80, 80, 0.8)" dotcolor="#bbb"></die-3d>
+    <die-3d bgcoloreven="rgba(60, 255, 60, 0.85)" bgcolorodd="rgba(80, 255, 80, 0.85)" dotcolor="darkgoldenrod" maxrollvalue="12"></die-3d>
+    <die-3d bgcolor="rgba(90, 90, 255, 0.85)" dotcolor="#fff" maxrollvalue="10"></die-3d>
+    <die-3d bgcoloreven="rgba(255, 65, 65, 0.8)" bgcolorodd="rgba(255, 30, 30, 0.8)" dotcolor="#fff" maxrollvalue="8"></die-3d>
+    <die-3d bgcoloreven="linear-gradient(rgba(65, 65, 65, 0.8), rgba(25, 25, 25, 0.8), rgba(75, 75, 75, 0.8), rgba(45, 45, 45, 0.8))" dotcolor="goldenrod" maxrollvalue="6"></die-3d>
+    <die-3d bgcoloreven="rgba(200, 200, 200, 0.8)" bgcolorodd="rgba(230, 230, 230, 0.8)" dotcolor="#666" maxrollvalue="4"></die-3d>
+
+    <h1 title="The amount of rolls depends on the time making them spin about the same speed on short and long timers." style="cursor: help;">Custom timers</h1>
+    <die-3d time="30"></die-3d>
+    <die-3d time="4" maxrollvalue="12"></die-3d>
+    <die-3d time="5" maxrollvalue="10"></die-3d>
+    <die-3d time="6" maxrollvalue="8"></die-3d>
+    <die-3d time="7" maxrollvalue="6"></die-3d>
+    <die-3d time="8" maxrollvalue="4"></die-3d>
+
+    <h1 title="The random number generated will be between the min and max, even if the dice does have higher or lower values." style="cursor: help;">Not so random (max or max - 1)</h1>
+    <die-3d minrollvalue="19" maxrollvalue="20"></die-3d>
+    <die-3d minrollvalue="11" maxrollvalue="12"></die-3d>
+    <die-3d minrollvalue="9" maxrollvalue="10"></die-3d>
+    <die-3d minrollvalue="7" maxrollvalue="8"></die-3d>
+    <die-3d minrollvalue="5"maxrollvalue="6"></die-3d>
+    <die-3d minrollvalue="3" maxrollvalue="4"></die-3d>
+
+    <h1 title="Disabled because no more rolls are possible. Default allows 10.000 rolls." style="cursor: help;">Disabled</h1>
+    <die-3d allowedrolls="0"></die-3d>
+    <die-3d allowedrolls="0" maxrollvalue="12"></die-3d>
+    <die-3d allowedrolls="0" maxrollvalue="10"></die-3d>
+    <die-3d allowedrolls="0" maxrollvalue="8"></die-3d>
+    <die-3d allowedrolls="0" maxrollvalue="6"></die-3d>
+    <die-3d allowedrolls="0" maxrollvalue="4"></die-3d>
+
+    <div id="trigger-only-on-button">
+        <h1 title="Useful if you want to only trigger a set of dice with another button" style="cursor: help;">Enabled but not directly clickable</h1>
+        <die-3d style="pointer-events: none;"></die-3d>
+        <die-3d style="pointer-events: none;" maxrollvalue="12"></die-3d>
+        <die-3d style="pointer-events: none;" maxrollvalue="10"></die-3d>
+        <die-3d style="pointer-events: none;" maxrollvalue="8"></die-3d>
+        <die-3d style="pointer-events: none;" maxrollvalue="6"></die-3d>
+        <die-3d style="pointer-events: none;" maxrollvalue="4"></die-3d>
+
+        <button id="roll-set-button" style="width: 130px; height: 130px; vertical-align: top; font-size: 40px;">Roll</button>
+
+        <script>
+            // trigger roll
+            document.getElementById('roll-set-button').addEventListener('click', () => {
+                [...document.querySelectorAll('#trigger-only-on-button die-3d')].forEach(e => e.click());
+            })
+
+            // count total
+            document.getElementById('roll-set-button').addEventListener('click', () => {
+                let total = 0;
+                [...document.getElementById('trigger-only-on-button').getElementsByTagName('die-3d')].forEach(e => e.click());
+                [...document.getElementById('trigger-only-on-button').getElementsByTagName('die-3d')].forEach(e => total += +e.getAttribute('title'));
+                document.getElementById('roll-set-button').innerText = total;
+            })
+        </script>
+    </div>
 </div>
 
-    <button id="all">Roll all</button>
-    <script>
-        // Roll all dice
-        document.getElementById('all').addEventListener('click', () => {
-            [...document.querySelectorAll('.wrapper die-3d')].forEach(e => e.click());
-        })
-    </script>
-
+<div>
     <!-- all HTML needed for the dicetray -->
     <p>Dicetray (click the red center)</p>
     <div id="tray" class="dicetray" style="position: relative; border: 2px solid saddlebrown; background-color: lightgreen; border-radius: 50%; width: 300px; height: 300px;">
-        <button id="tray-button" style="background-color:red; width:30px; height: 30px; border-radius: 50%; position:absolute; left: 50%; top:50%; transform:translate(-50%, -50%);text-align: center;">0</button>
+        <button id="tray-button" style="background-color:red; width:30px; height: 30px; border-radius: 50%; position:absolute; left: 50%; top:50%; transform:translate(-50%, -50%);text-align: center;">
+            0
+        </button>
 
         <die-3d maxrollvalue="4" style="position:absolute;top:70%;left:30%;width:80px;height:80px;pointer-events: none;"></die-3d>
         <die-3d maxrollvalue="6" style="position:absolute;top:30%;left:60%;width:80px;height:80px;pointer-events: none;"></die-3d>
@@ -35,20 +149,21 @@
         <die-3d maxrollvalue="12" style="position:absolute;top:60%;left:60%;width:80px;height:80px;pointer-events: none;"></die-3d>
         <die-3d style="position:absolute;top:3%;left:40%;width:80px;height:80px;pointer-events: none;"></die-3d>
     </div>
+</div>
 
-    <p><small>The D4 isn't a pyramid to prevent wizards dying by stepping on it.</small></p>
+<p><small>The D4 isn't a pyramid to prevent wizards dying by stepping on it.</small></p>
 
 
-    <script>
-        // All JS needed for the dicetray
-        document.getElementById('tray-button').addEventListener('click', () => {
-            let total = 0;
-            [...document.getElementById('tray').getElementsByTagName('die-3d')].forEach(e => e.click());
-            [...document.getElementById('tray').getElementsByTagName('die-3d')].forEach(e => total += +e.getAttribute('title'));
-            document.getElementById('tray-button').innerText = total;
-        })
-    </script>
+<script>
+    // All JS needed for the dicetray
+    document.getElementById('tray-button').addEventListener('click', () => {
+        let total = 0;
+        [...document.getElementById('tray').getElementsByTagName('die-3d')].forEach(e => e.click());
+        [...document.getElementById('tray').getElementsByTagName('die-3d')].forEach(e => total += +e.getAttribute('title'));
+        document.getElementById('tray-button').innerText = total;
+    })
+</script>
 
-    <script src="./die.js"></script>
+<script src="./die.js"></script>
 </body>
 </html>

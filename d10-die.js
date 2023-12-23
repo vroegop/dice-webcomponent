@@ -25,7 +25,7 @@ export class D10Die {
   transform-style: preserve-3d;
   transition: transform var(--roll-time) ease-out;
   cursor: pointer;
-  transform: rotateX(360deg) rotateY(360deg) translateY(calc(var(--die-size) / 120 * 5));
+  transform: rotateX(360deg) rotateY(320deg) rotateZ(0) translateY(calc(var(--die-size) / 120 * 5));
   scale: 1.2;
 }
 #die[data-face="1"] {
@@ -88,7 +88,7 @@ export class D10Die {
   transform: rotateY(360deg) translateZ(calc(var(--die-size) / 200 * -34)) translateY(calc(var(--die-size) / 200 * -6.96)) rotateZ(180deg) rotateY(180deg) rotateX(45deg);
 }
 #die[data-face="10"] {
-  transform: rotateX(-45deg) rotateY(0deg);
+  transform: rotateX(-45deg) rotateY(0deg) rotatez(var(--total-rolls));
 }
 #die .face.face-10 {
   transform: rotateY(0deg) translateZ(calc(var(--die-size) / 200 * 34)) translateY(calc(var(--die-size) / 200 * 6.96)) rotateX(45deg);
@@ -123,10 +123,10 @@ export class D10Die {
   content: "";
   position: absolute;
   bottom: calc(var(--die-size) / 200 * -124);
-  left: calc(var(--die-size) / 200 * -52);
-  border-left: calc(var(--die-size) / 200 * 52) solid transparent;
-  border-right: calc(var(--die-size) / 200 * 52) solid transparent;
-  border-top: calc(var(--die-size) / 200 * 24) solid var(--die-color-even);
+  left: calc(var(--die-size) / 200 * -53);
+  border-left: calc(var(--die-size) / 200 * 53) solid transparent;
+  border-right: calc(var(--die-size) / 200 * 53) solid transparent;
+  border-top: calc(var(--die-size) / 200 * 25) solid var(--die-color-even);
 }
 </style>
 `

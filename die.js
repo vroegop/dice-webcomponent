@@ -24,7 +24,6 @@ class Die3D extends HTMLElement {
         this.diecolorodd = this.getAttribute('bgcolorodd') || this.getAttribute('bgcolor') || 'darkgoldenrod';
         this.dotcolor = this.getAttribute('dotcolor') || '#4b4b4b';
         this.time = this.getAttribute('time') || '2';
-        this.animate = this.getAttribute('animate') === '';
         this.lastNumber = +(this.getAttribute('initialvalue') || 0);
         this.allowedRolls = +(this.getAttribute('allowedrolls') ?? 10000);
         this.minrollvalue = +(this.getAttribute('minrollvalue') ?? 1);
@@ -60,7 +59,7 @@ class Die3D extends HTMLElement {
             this.allowedRolls -= 1;
             this.totalRolls ++;
             // Make sure the die always rolls, also if the same value is thrown twice
-            this.style.setProperty('--total-rolls', this.totalRolls + 'turn');
+            this.style.setProperty('--total-rolls', (+this.totalRolls * Math.floor((+this.time))) + 'turn');
         }
         this.isDisabled = this.allowedRolls < 1;
 
@@ -80,7 +79,7 @@ class Die3D extends HTMLElement {
         this.style.setProperty('--die-color-even', this.diecoloreven);
         this.style.setProperty('--die-color-odd', this.diecolorodd);
         this.style.setProperty('--dot-color', this.dotcolor);
-        this.style.setProperty('--total-rolls', this.totalRolls);
+        this.style.setProperty('--total-rolls', (+this.totalRolls * Math.floor((+this.time))) + 'turn');
     }
 
     setSize() {

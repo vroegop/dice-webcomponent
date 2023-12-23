@@ -35,7 +35,7 @@ export class D20Die {
   transform-style: preserve-3d;
   transition: transform var(--roll-time) ease-out;
   cursor: pointer;
-  transform: rotateX(-210deg);
+  transform: rotateX(-210deg) rotateY(25deg) rotateZ(0);
   scale: 1.25;
   
     --size-small: calc(var(--die-size) / 200 * 33.5);
