@@ -1,95 +1,7 @@
-class D20Die extends HTMLElement {
-    constructor() {
-        super();
-    }
-
-    connectedCallback() {
-        this.attachShadow({mode: 'open'});
-        // Read custom properties users can set
-        this.setInitialValues();
-        // Settings these variables before rendering makes sure no animations happen on load
-        this.setStyle();
-        // Render HTML and CSS
-        this.render();
-        // Size is a CSS variable but can only be determined after rendering. This will cause an animation.
-        this.setSize();
-        // Call rollDice once with this.lastNumber to set a default value
-        this.rollDice(this.lastNumber);
-
-        this.addEventListener('click', () => this.rollDice());
-    }
-
-    setInitialValues() {
-        this.diecoloreven = this.getAttribute('bgcoloreven') || this.getAttribute('bgcolor') || 'goldenrod';
-        this.diecolorodd = this.getAttribute('bgcolorodd') || this.getAttribute('bgcolor') || 'darkgoldenrod';
-        this.dotcolor = this.getAttribute('dotcolor') || '#4b4b4b';
-        this.time = this.getAttribute('time') || '2';
-        this.animate = this.getAttribute('animate') === '';
-        this.lastNumber = +(this.getAttribute('initialvalue') || 0);
-        this.allowedRolls = +(this.getAttribute('allowedrolls') ?? 10000);
-        this.minrollvalue = +(this.getAttribute('minrollvalue') ?? 1);
-        this.maxrollvalue = +(this.getAttribute('maxrollvalue') ?? 20);
-        this.isDisabled = this.allowedRolls < 1;
-        this.totalRolls = 0;
-    }
-
-    rollDice(value) {
-        // If a default value is set, we don't count it as a roll and only animate the dice to that value
-        if (typeof value === 'number') {
-            // Set the title so hovering the cursor shows the value as a number
-            this.setAttribute('title', this.lastNumber);
-            this.shadowRoot.getElementById('d20').setAttribute('data-face', this.lastNumber);
-            if (this.isDisabled) {
-                this.style.setProperty('--die-color-even', 'rgb(70, 70, 70)');
-                this.style.setProperty('--die-color-odd', 'rgb(75, 75, 75)');
-                this.style.setProperty('--dot-color', 'rgb(164,164,164)');
-            }
-            return;
-        }
-        // If no default value is set, we will simply roll a new value and count the allowed rolls
-        if (!this.isDisabled) {
-            // Determine new dice value, random but between the min and max value specified
-            this.lastNumber = value || Math.floor(Math.random() * (this.maxrollvalue - this.minrollvalue)) + this.minrollvalue + 1;
-            // Dispatch an event so external objects know what the throw was
-            this.dispatchEvent(new CustomEvent('selection', {detail: this.lastNumber}));
-            // Set the title so hovering the cursor shows the value as a number
-            this.setAttribute('title', this.lastNumber);
-            // Update the HTML to animate the dice to the new value
-            this.shadowRoot.getElementById('d20').setAttribute('data-face', this.lastNumber);
-            // Bookkeeping
-            this.allowedRolls -= 1;
-            this.totalRolls ++;
-            // Make sure the dice always rolls, also if the same value is thrown twice
-            this.style.setProperty('--total-rolls', this.totalRolls + 'turn');
-        }
-        this.isDisabled = this.allowedRolls < 1;
-
-        if (this.isDisabled) {
-            setTimeout(() => {
-                if (this.isDisabled) {
-                    this.style.setProperty('--die-color-even', 'rgb(70, 70, 70)');
-                    this.style.setProperty('--die-color-odd', 'rgb(75, 75, 75)');
-                    this.style.setProperty('--dot-color', 'rgb(155, 155, 155)');
-                }
-            }, this.time * 1000);
-        }
-    }
-
-    setStyle() {
-        this.style.setProperty('--roll-time', this.time + 's');
-        this.style.setProperty('--die-color-even', this.diecoloreven);
-        this.style.setProperty('--die-color-odd', this.diecolorodd);
-        this.style.setProperty('--dot-color', this.dotcolor);
-        this.style.setProperty('--total-rolls', this.totalRolls);
-    }
-
-    setSize() {
-        this.style.setProperty('--die-size',  (this.clientHeight || 120) + 'px');
-    }
-
-    render() {
-        this.shadowRoot.innerHTML = `
-<div id="d20">
+export class D20Die {
+    static getHtml() {
+        return `
+<div id="die">
     <div class="face face-1"></div>
     <div class="face face-2"></div>
     <div class="face face-3"></div>
@@ -111,27 +23,20 @@ class D20Die extends HTMLElement {
     <div class="face face-19"></div>
     <div class="face face-20"></div>
 </div>
-
-${this.renderCss()}
-        `;
+`
     }
 
-    renderCss() {
+    static getCss() {
         return `
 <style>
-:host {
-  position:relative;
-  display:inline-block;
-  font-family: arial;
-}
-
-#d20 {
+#die {
   width: var(--die-size);
   height: var(--die-size);
   transform-style: preserve-3d;
   transition: transform var(--roll-time) ease-out;
   cursor: pointer;
-  transform: rotateX(-53deg);
+  transform: rotateX(-210deg);
+  scale: 1.25;
   
     --size-small: calc(var(--die-size) / 200 * 33.5);
     --size-negative: calc(var(--die-size) / 200 * -12.9);
@@ -139,70 +44,70 @@ ${this.renderCss()}
     --size-medium: calc(var(--die-size) / 200 * 54.18);
     --size-standard: calc(var(--die-size) / 200 * 75);
 }
-#d20:not([data-face]) {
+#die:not([data-face]) {
     transform: rotateX(1turn) rotateY(1turn) rotateZ(0deg);
 }
-#d20[data-face="1"] {
+#die[data-face="1"] {
   transform: rotateX(-53deg) rotateY(0deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="2"] {
+#die[data-face="2"] {
   transform: rotateX(-53deg) rotateY(72deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="3"] {
+#die[data-face="3"] {
   transform: rotateX(-53deg) rotateY(144deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="4"] {
+#die[data-face="4"] {
   transform: rotateX(-53deg) rotateY(216deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="5"] {
+#die[data-face="5"] {
   transform: rotateX(-53deg) rotateY(288deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="16"] {
+#die[data-face="16"] {
   transform: rotateX(127deg) rotateY(-72deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="17"] {
+#die[data-face="17"] {
   transform: rotateX(127deg) rotateY(-144deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="18"] {
+#die[data-face="18"] {
   transform: rotateX(127deg) rotateY(-216deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="19"] {
+#die[data-face="19"] {
   transform: rotateX(127deg) rotateY(-288deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="20"] {
+#die[data-face="20"] {
   transform: rotateX(127deg) rotateY(-360deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="6"] {
+#die[data-face="6"] {
   transform: rotateX(190deg) rotateY(180deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="7"] {
+#die[data-face="7"] {
   transform: rotateX(190deg) rotateY(252deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="8"] {
+#die[data-face="8"] {
   transform: rotateX(190deg) rotateY(324deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="9"] {
+#die[data-face="9"] {
   transform: rotateX(190deg) rotateY(396deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="10"] {
+#die[data-face="10"] {
   transform: rotateX(190deg) rotateY(108deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="11"] {
+#die[data-face="11"] {
   transform: rotateX(11deg) rotateY(-252deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="12"] {
+#die[data-face="12"] {
   transform: rotateX(11deg) rotateY(-324deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="13"] {
+#die[data-face="13"] {
   transform: rotateX(11deg) rotateY(-396deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="14"] {
+#die[data-face="14"] {
   transform: rotateX(11deg) rotateY(-468deg) rotatez(var(--total-rolls));
 }
-#d20[data-face="15"] {
+#die[data-face="15"] {
   transform: rotateX(11deg) rotateY(-540deg) rotatez(var(--total-rolls));
 }
-#d20 .face {
+#die .face {
   position: absolute;
   left: 50%;
   top: 0;
@@ -215,10 +120,10 @@ ${this.renderCss()}
   transform-style: preserve-3d;
   counter-increment: steps 1;
 }
-#d20 .face:nth-child(odd) {
+#die .face:nth-child(odd) {
   border-bottom-color: var(--die-color-odd);
 }
-#d20 .face:before {
+#die .face:before {
   content: counter(steps);
   position: absolute;
   top: calc(var(--die-size) / 10);
@@ -230,76 +135,74 @@ ${this.renderCss()}
   width: var(--die-size);
   height: calc(var(--die-size) / 2);
 }
-#d20 .face:nth-child(6):before, #d20 .face:nth-child(9):before {
+#die .face:nth-child(6):before, #die .face:nth-child(9):before {
   text-decoration: underline;
 }
-#d20 .face:nth-child(1):before, #d20 .face:nth-child(20):before {
+#die .face:nth-child(1):before, #die .face:nth-child(20):before {
   font-weight: bold;
   font-size: calc(var(--die-size) / 5);
 }
-#d20 .face:nth-child(1) {
+#die .face:nth-child(1) {
   transform: rotateY(0deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * -12.9)) rotateX(53deg);
 }
-#d20 .face:nth-child(2) {
+#die .face:nth-child(2) {
   transform: rotateY(-72deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * -12.9)) rotateX(53deg);
 }
-#d20 .face:nth-child(3) {
+#die .face:nth-child(3) {
   transform: rotateY(-144deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * -12.9)) rotateX(53deg);
 }
-#d20 .face:nth-child(4) {
+#die .face:nth-child(4) {
   transform: rotateY(-216deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * -12.9)) rotateX(53deg);
 }
-#d20 .face:nth-child(5) {
+#die .face:nth-child(5) {
   transform: rotateY(-288deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * -12.9)) rotateX(53deg);
 }
-#d20 .face:nth-child(6) {
+#die .face:nth-child(6) {
   transform: rotateY(360deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateZ(180deg) rotateX(-11deg);
 }
-#d20 .face:nth-child(7) {
+#die .face:nth-child(7) {
   transform: rotateY(288deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateZ(180deg) rotateX(-11deg);
 }
-#d20 .face:nth-child(8) {
+#die .face:nth-child(8) {
   transform: rotateY(216deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateZ(180deg) rotateX(-11deg);
 }
-#d20 .face:nth-child(9) {
+#die .face:nth-child(9) {
   transform: rotateY(144deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateZ(180deg) rotateX(-11deg);
 }
-#d20 .face:nth-child(10) {
+#die .face:nth-child(10) {
   transform: rotateY(72deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateZ(180deg) rotateX(-11deg);
 }
-#d20 .face:nth-child(11) {
+#die .face:nth-child(11) {
   transform: rotateY(252deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateX(-11deg);
 }
-#d20 .face:nth-child(12) {
+#die .face:nth-child(12) {
   transform: rotateY(324deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateX(-11deg);
 }
-#d20 .face:nth-child(13) {
+#die .face:nth-child(13) {
   transform: rotateY(396deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateX(-11deg);
 }
-#d20 .face:nth-child(14) {
+#die .face:nth-child(14) {
   transform: rotateY(468deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateX(-11deg);
 }
-#d20 .face:nth-child(15) {
+#die .face:nth-child(15) {
   transform: rotateY(540deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateX(-11deg);
 }
-#d20 .face:nth-child(16) {
+#die .face:nth-child(16) {
   transform: rotateY(-108deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * 121.26)) rotateZ(180deg) rotateX(53deg);
 }
-#d20 .face:nth-child(17) {
+#die .face:nth-child(17) {
   transform: rotateY(-36deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * 121.26)) rotateZ(180deg) rotateX(53deg);
 }
-#d20 .face:nth-child(18) {
+#die .face:nth-child(18) {
   transform: rotateY(36deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * 121.26)) rotateZ(180deg) rotateX(53deg);
 }
-#d20 .face:nth-child(19) {
+#die .face:nth-child(19) {
   transform: rotateY(108deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * 121.26)) rotateZ(180deg) rotateX(53deg);
 }
-#d20 .face:nth-child(20) {
+#die .face:nth-child(20) {
   transform: rotateY(180deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * 121.26)) rotateZ(180deg) rotateX(53deg);
 }
 </style>
 `
     }
 }
-
-customElements.define('d20-die', D20Die);

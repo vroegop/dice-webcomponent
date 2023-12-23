@@ -6,24 +6,20 @@
     <style>#all {position: absolute; left: 0; top: 0;}</style>
 </head>
 <body>
-    <p>D6</p>
-    <d6-die style="margin: 30px; width:100px;height:100px;"></d6-die>
-
-    <p>D20</p>
-    <d20-die style="width:180px;height:180px;"></d20-die>
-
-    <p>D10</p>
-    <d10-die style="width:200px;height:200px;"></d10-die>
-
-    <p>D4</p>
-    <d4-die style="width:200px;height:200px;"></d4-die>
-
+<div class="wrapper">
+<die-3d></die-3d>
+    <die-3d maxrollvalue="12"></die-3d>
+    <die-3d maxrollvalue="10"></die-3d>
+    <die-3d maxrollvalue="8"></die-3d>
+    <die-3d maxrollvalue="6"></die-3d>
+    <die-3d maxrollvalue="4"></die-3d>
+</div>
 
     <button id="all">Roll all</button>
     <script>
         // Roll all dice
         document.getElementById('all').addEventListener('click', () => {
-            [...document.getElementsByTagName('d6-die')].forEach(e => e.click());
+            [...document.querySelectorAll('.wrapper die-3d')].forEach(e => e.click());
         })
     </script>
 
@@ -32,28 +28,27 @@
     <div id="tray" class="dicetray" style="position: relative; border: 2px solid saddlebrown; background-color: lightgreen; border-radius: 50%; width: 300px; height: 300px;">
         <button id="tray-button" style="background-color:red; width:30px; height: 30px; border-radius: 50%; position:absolute; left: 50%; top:50%; transform:translate(-50%, -50%);text-align: center;">0</button>
 
-        <d6-die style="position:absolute;top:70%;left:50%;width:30px;height:30px;"></d6-die>
-        <d10-die style="position:absolute;top:20%;left:60%;width:90px;height:90px;"></d10-die>
-        <d20-die style="position:absolute;top:10%;left:10%;width:110px;height:110px;"></d20-die>
+        <die-3d maxrollvalue="4" style="position:absolute;top:70%;left:30%;width:80px;height:80px;pointer-events: none;"></die-3d>
+        <die-3d maxrollvalue="6" style="position:absolute;top:30%;left:60%;width:80px;height:80px;pointer-events: none;"></die-3d>
+        <die-3d maxrollvalue="8" style="position:absolute;top:10%;left:10%;width:80px;height:80px;pointer-events: none;"></die-3d>
+        <die-3d maxrollvalue="10" style="position:absolute;top:50%;left:8%;width:80px;height:80px;pointer-events: none;"></die-3d>
+        <die-3d maxrollvalue="12" style="position:absolute;top:60%;left:60%;width:80px;height:80px;pointer-events: none;"></die-3d>
+        <die-3d style="position:absolute;top:3%;left:40%;width:80px;height:80px;pointer-events: none;"></die-3d>
     </div>
+
+    <p><small>The D4 isn't a pyramid to prevent wizards dying by stepping on it.</small></p>
+
 
     <script>
         // All JS needed for the dicetray
         document.getElementById('tray-button').addEventListener('click', () => {
             let total = 0;
-            [...document.getElementById('tray').getElementsByTagName('d6-die')].forEach(e => e.click());
-            [...document.getElementById('tray').getElementsByTagName('d6-die')].forEach(e => total += +e.getAttribute('title'));
-            [...document.getElementById('tray').getElementsByTagName('d10-die')].forEach(e => e.click());
-            [...document.getElementById('tray').getElementsByTagName('d10-die')].forEach(e => total += +e.getAttribute('title'));
-            [...document.getElementById('tray').getElementsByTagName('d20-die')].forEach(e => e.click());
-            [...document.getElementById('tray').getElementsByTagName('d20-die')].forEach(e => total += +e.getAttribute('title'));
+            [...document.getElementById('tray').getElementsByTagName('die-3d')].forEach(e => e.click());
+            [...document.getElementById('tray').getElementsByTagName('die-3d')].forEach(e => total += +e.getAttribute('title'));
             document.getElementById('tray-button').innerText = total;
         })
     </script>
 
-    <script src="./d6-die.js"></script>
-    <script src="./d20-die.js"></script>
-    <script src="./d10-die.js"></script>
-    <script src="d8-d4-die.js"></script>
+    <script src="./die.js"></script>
 </body>
 </html>
