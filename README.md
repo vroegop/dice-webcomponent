@@ -1,7 +1,28 @@
-# d6-webcomponent
+# dice-webcomponent
 
-https://codepen.io/rjpvroegop/pen/BabBQKQ
+Open index.html for more examples: simply run `npx http-server .`
 
-# Credits
+## 3D animated dice!
 
-https://css-tricks.com/are-there-random-numbers-in-css/
+The code is optimized to lazy-load only the die you request. If you use the D10, the D20, D12 and other dice code are not fetched by the browser.
+
+## Installation
+
+If you use a JS framework:
+
+    import 'dice-webcomponent/die.js';
+    &lt;die-3d>&lt;/die-3d>
+
+If you use plain HTML:
+
+    &lt;die-3d>&lt;/die-3d>
+    &lt;script src="./die.js">&lt;/script>
+
+## Usage (default):
+
+    <die-3d></die-3d>
+    <die-3d maxrollvalue="12"></die-3d>
+    <die-3d maxrollvalue="10"></die-3d>
+    <die-3d maxrollvalue="8"></die-3d>
+    <die-3d maxrollvalue="6"></die-3d>
+    <die-3d maxrollvalue="4"></die-3d>

@@ -59,7 +59,7 @@ class Die3D extends HTMLElement {
             this.allowedRolls -= 1;
             this.totalRolls ++;
             // Make sure the die always rolls, also if the same value is thrown twice
-            this.style.setProperty('--total-rolls', (+this.totalRolls * Math.floor((+this.time))) + 'turn');
+            this.style.setProperty('--total-rolls', ((+this.totalRolls - 1) * Math.floor((+this.time))) + 'turn');
         }
         this.isDisabled = this.allowedRolls < 1;
 
@@ -79,7 +79,7 @@ class Die3D extends HTMLElement {
         this.style.setProperty('--die-color-even', this.diecoloreven);
         this.style.setProperty('--die-color-odd', this.diecolorodd);
         this.style.setProperty('--dot-color', this.dotcolor);
-        this.style.setProperty('--total-rolls', (+this.totalRolls * Math.floor((+this.time))) + 'turn');
+        this.style.setProperty('--total-rolls', ((+this.totalRolls - 1) * Math.floor((+this.time))) + 'turn');
     }
 
     setSize() {
