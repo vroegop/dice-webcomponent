@@ -1,8 +1,8 @@
 {
-  "name": "d6-webcomponent",
+  "name": "dice-webcomponent",
   "version": "1.0.0",
   "description": "Allows easy creation of a working D6 die without external libraries or dependencies",
-  "main": "d6-die.js",
+  "main": "die.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
