@@ -1,5 +1,7 @@
 # dice-webcomponent
 
+https://www.npmjs.com/package/dice-webcomponent
+
 Open index.html for more examples: simply run `npx http-server .`
 
 ## 3D animated dice!
