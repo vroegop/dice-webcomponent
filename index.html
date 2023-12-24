@@ -24,6 +24,63 @@
     h1 {
         cursor: pointer;
     }
+    .custom-die-form {
+        background-color: #1e1e1e; /* Dark background */
+        color: #ffffff; /* Light text for dark mode */
+        padding: 20px;
+        border-radius: 8px;
+        font-family: Arial, sans-serif;
+        position: relative;
+    }
+
+    .custom-die-form label {
+        display: block;
+        color: #a9a9a9; /* Slightly lighter text for labels */
+    }
+
+    .custom-die-form input[type="number"],
+    .custom-die-form input[type="text"] {
+        width: 100%;
+        padding: 2px 8px;
+        border: 1px solid #333333;
+        border-radius: 4px;
+        background-color: #2e2e2e;
+        color: #ffffff;
+        box-sizing: border-box; /* Ensures input doesn't overflow its container */
+    }
+
+    .custom-die-form input[type="number"]:focus,
+    .custom-die-form input[type="text"]:focus {
+        outline: none;
+        border-color: goldenrod;
+    }
+
+    .custom-die-form button {
+        background-color: goldenrod;
+        color: #1e1e1e;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .custom-die-form button:hover {
+        background-color: #d4a017;
+    }
+
+    .custom-die-form pre {
+        display:block;
+        float:right;
+    }
+
+    .custom-die-form die-3d {
+        position:absolute;
+        left: 50%;
+        bottom: 10px;
+    }
+
     </style>
 </head>
 <body>
@@ -35,7 +92,7 @@
 
     <p>If you use a JS framework:</p>
     <pre class="visible"><code>
-import 'dice-webcomponent';
+import 'die-3d';
 &lt;die-3d>&lt;/die-3d>
     </code></pre>
 
@@ -66,6 +123,59 @@ import 'dice-webcomponent';
         <die-3d maxrollvalue="6"></die-3d>
         <die-3d maxrollvalue="4"></die-3d>
     </div>
+
+    <div>
+        <h1 title="All properties configured.">Dice with all custom properties.</h1>
+
+        <div class="custom-die-form">
+            <pre class="visible"><code id="codeBlock" style="overflow: auto;">&lt;die-3d
+        minrollvalue="1"
+        maxrollvalue="20"
+        initialvalue="1"
+        bgcoloreven="#333333"
+        bgcolorodd="rgba(70,70,70,0.8)"
+        valuecolor="goldenrod"
+        allowedrolls="1"
+        time="3"
+>&lt;/die-3d></code></pre>
+            <!-- User input fields -->
+            <label>Min Roll Value: <input valuecolortype="number" id="minRollValue" value="1"></label><br>
+            <label>Max Roll Value: <input valuecolortype="number" id="maxRollValue" value="20"></label><br>
+            <label>Initial Value: <input valuecolortype="number" id="initialValue" value="1"></label><br>
+            <label>Even Background Color: <input valuecolortype="text" id="bgColorEven" value="#333333"></label><br>
+            <label>Odd Background Color: <input valuecolortype="text" id="bgColorOdd" value="rgba(70,70,70,0.8)"></label><br>
+            <label>Value Color: <input valuecolortype="text" id="valueColor" value="goldenrod"></label><br>
+            <label>Allowed Rolls: <input valuecolortype="number" id="allowedRolls" value="1"></label><br>
+            <label>Time: <input valuecolortype="number" id="time" value="3"></label><br>
+            <button onclick="updateDie();">Update die</button>
+
+            <span id="editable-die">
+                <die-3d id="die3D" minrollvalue="1" maxrollvalue="20" initialvalue="1"  bgcoloreven="#333" bgcolorodd="rgba(70,70,70,0.8)" valuecolor="goldenrod" allowedrolls="1" time="3"></die-3d>
+            </span>
+        </div>
+    </div>
+
+    <script>
+        function updateDie() {
+            // Get the die element
+            var die = document.createElement("die-3d");
+
+            // Update attributes
+            die.setAttribute("minrollvalue", document.getElementById("minRollValue").value);
+            die.setAttribute("maxrollvalue", document.getElementById("maxRollValue").value);
+            die.setAttribute("initialvalue", document.getElementById("initialValue").value);
+            die.setAttribute("bgcoloreven", document.getElementById("bgColorEven").value);
+            die.setAttribute("bgcolorodd", document.getElementById("bgColorOdd").value);
+            die.setAttribute("valuecolor", document.getElementById("valueColor").value);
+            die.setAttribute("allowedrolls", document.getElementById("allowedRolls").value);
+            die.setAttribute("time", document.getElementById("time").value);
+
+            // Update code block
+            document.getElementById("editable-die").innerHTML = die.outerHTML;
+            document.getElementById("codeBlock").textContent = die.outerHTML.replaceAll(" ", "\n\t").replace("><", "\n><");
+            setTimeout(() => { hljs.highlightAll() }, 0);
+        }
+    </script>
 
     <div>
         <h1 title="The initialvalue attribute determines the default value.">Preset value</h1>
@@ -145,39 +255,39 @@ import 'dice-webcomponent';
     <div>
         <h1 title="Note gradients only work on D6 due to the use of triangles in other dies. D10 and D6 don't have different even-odd styles.">Custom Colors</h1>
 <pre><code>
-&lt;die-3d bgcoloreven="#333" bgcolorodd="#444" dotcolor="#bbb">&lt;/die-3d>
-&lt;die-3d bgcoloreven="#0f0" bgcolorodd="#0e0" dotcolor="darkgoldenrod" maxrollvalue="12">&lt;/die-3d>
-&lt;die-3d bgcolor="#77f" dotcolor="#fff" maxrollvalue="10">&lt;/die-3d>
-&lt;die-3d bgcoloreven="#f00" bgcolorodd="#e00" dotcolor="#fff" maxrollvalue="8">&lt;/die-3d>
+&lt;die-3d bgcoloreven="#333" bgcolorodd="#444" valuecolor="#bbb">&lt;/die-3d>
+&lt;die-3d bgcoloreven="#0f0" bgcolorodd="#0e0" valuecolor="darkgoldenrod" maxrollvalue="12">&lt;/die-3d>
+&lt;die-3d bgcolor="#77f" valuecolor="#fff" maxrollvalue="10">&lt;/die-3d>
+&lt;die-3d bgcoloreven="#f00" bgcolorodd="#e00" valuecolor="#fff" maxrollvalue="8">&lt;/die-3d>
 &lt;!-- gradient only works for D6 -->
-&lt;die-3d bgcoloreven="linear-gradient(#777, #444, #666, #555, #666, #444, #444, #777" dotcolor="goldenrod" maxrollvalue="6">&lt;/die-3d>
-&lt;die-3d bgcoloreven="#ddd" bgcolorodd="#ccc" dotcolor="#666" maxrollvalue="4">&lt;/die-3d>
+&lt;die-3d bgcoloreven="linear-gradient(#777, #444, #666, #555, #666, #444, #444, #777" valuecolor="goldenrod" maxrollvalue="6">&lt;/die-3d>
+&lt;die-3d bgcoloreven="#ddd" bgcolorodd="#ccc" valuecolor="#666" maxrollvalue="4">&lt;/die-3d>
 </code></pre>
-        <die-3d bgcoloreven="#333" bgcolorodd="#444" dotcolor="#bbb"></die-3d>
-        <die-3d bgcoloreven="#0f0" bgcolorodd="#0e0" dotcolor="darkgoldenrod" maxrollvalue="12"></die-3d>
-        <die-3d bgcolor="#77f" dotcolor="#fff" maxrollvalue="10"></die-3d>
-        <die-3d bgcoloreven="#f00" bgcolorodd="#e00" dotcolor="#fff" maxrollvalue="8"></die-3d>
-        <die-3d bgcoloreven="linear-gradient(#777, #444, #666, #555, #666, #444, #444, #777" dotcolor="goldenrod" maxrollvalue="6"></die-3d>
-        <die-3d bgcoloreven="#ddd" bgcolorodd="#ccc" dotcolor="#666" maxrollvalue="4"></die-3d>
+        <die-3d bgcoloreven="#333" bgcolorodd="#444" valuecolor="#bbb"></die-3d>
+        <die-3d bgcoloreven="#0f0" bgcolorodd="#0e0" valuecolor="darkgoldenrod" maxrollvalue="12"></die-3d>
+        <die-3d bgcolor="#77f" valuecolor="#fff" maxrollvalue="10"></die-3d>
+        <die-3d bgcoloreven="#f00" bgcolorodd="#e00" valuecolor="#fff" maxrollvalue="8"></die-3d>
+        <die-3d bgcoloreven="linear-gradient(#777, #444, #666, #555, #666, #444, #444, #777" valuecolor="goldenrod" maxrollvalue="6"></die-3d>
+        <die-3d bgcoloreven="#ddd" bgcolorodd="#ccc" valuecolor="#666" maxrollvalue="4"></die-3d>
     </div>
 
     <div>
         <h1 title="Transparency is always set through rgba.">Glass effect</h1>
 <pre><code>
-&lt;die-3d bgcoloreven="rgba(60, 60, 60, 0.8)" bgcolorodd="rgba(80, 80, 80, 0.8)" dotcolor="#bbb">&lt;/die-3d>
-&lt;die-3d bgcoloreven="rgba(60, 255, 60, 0.85)" bgcolorodd="rgba(80, 255, 80, 0.85)" dotcolor="darkgoldenrod" maxrollvalue="12">&lt;/die-3d>
-&lt;die-3d bgcolor="rgba(90, 90, 255, 0.85)" dotcolor="#fff" maxrollvalue="10">&lt;/die-3d>
-&lt;die-3d bgcoloreven="rgba(255, 65, 65, 0.8)" bgcolorodd="rgba(255, 30, 30, 0.8)" dotcolor="#fff" maxrollvalue="8">&lt;/die-3d>
+&lt;die-3d bgcoloreven="rgba(60, 60, 60, 0.8)" bgcolorodd="rgba(80, 80, 80, 0.8)" valuecolor="#bbb">&lt;/die-3d>
+&lt;die-3d bgcoloreven="rgba(60, 255, 60, 0.85)" bgcolorodd="rgba(80, 255, 80, 0.85)" valuecolor="darkgoldenrod" maxrollvalue="12">&lt;/die-3d>
+&lt;die-3d bgcolor="rgba(90, 90, 255, 0.85)" valuecolor="#fff" maxrollvalue="10">&lt;/die-3d>
+&lt;die-3d bgcoloreven="rgba(255, 65, 65, 0.8)" bgcolorodd="rgba(255, 30, 30, 0.8)" valuecolor="#fff" maxrollvalue="8">&lt;/die-3d>
 &lt;!-- gradient only works for D6 -->
-&lt;die-3d bgcoloreven="linear-gradient(rgba(65, 65, 65, 0.8), rgba(25, 25, 25, 0.8), rgba(75, 75, 75, 0.8), rgba(45, 45, 45, 0.8))" dotcolor="goldenrod" maxrollvalue="6">&lt;/die-3d>
-&lt;die-3d bgcoloreven="rgba(200, 200, 200, 0.8)" bgcolorodd="rgba(230, 230, 230, 0.8)" dotcolor="#666" maxrollvalue="4">&lt;/die-3d>
+&lt;die-3d bgcoloreven="linear-gradient(rgba(65, 65, 65, 0.8), rgba(25, 25, 25, 0.8), rgba(75, 75, 75, 0.8), rgba(45, 45, 45, 0.8))" valuecolor="goldenrod" maxrollvalue="6">&lt;/die-3d>
+&lt;die-3d bgcoloreven="rgba(200, 200, 200, 0.8)" bgcolorodd="rgba(230, 230, 230, 0.8)" valuecolor="#666" maxrollvalue="4">&lt;/die-3d>
 </code></pre>
-        <die-3d bgcoloreven="rgba(60, 60, 60, 0.8)" bgcolorodd="rgba(80, 80, 80, 0.8)" dotcolor="#bbb"></die-3d>
-        <die-3d bgcoloreven="rgba(60, 255, 60, 0.85)" bgcolorodd="rgba(80, 255, 80, 0.85)" dotcolor="darkgoldenrod" maxrollvalue="12"></die-3d>
-        <die-3d bgcolor="rgba(90, 90, 255, 0.85)" dotcolor="#fff" maxrollvalue="10"></die-3d>
-        <die-3d bgcoloreven="rgba(255, 65, 65, 0.8)" bgcolorodd="rgba(255, 30, 30, 0.8)" dotcolor="#fff" maxrollvalue="8"></die-3d>
-        <die-3d bgcoloreven="linear-gradient(rgba(65, 65, 65, 0.8), rgba(25, 25, 25, 0.8), rgba(75, 75, 75, 0.8), rgba(45, 45, 45, 0.8))" dotcolor="goldenrod" maxrollvalue="6"></die-3d>
-        <die-3d bgcoloreven="rgba(200, 200, 200, 0.8)" bgcolorodd="rgba(230, 230, 230, 0.8)" dotcolor="#666" maxrollvalue="4"></die-3d>
+        <die-3d bgcoloreven="rgba(60, 60, 60, 0.8)" bgcolorodd="rgba(80, 80, 80, 0.8)" valuecolor="#bbb"></die-3d>
+        <die-3d bgcoloreven="rgba(60, 255, 60, 0.85)" bgcolorodd="rgba(80, 255, 80, 0.85)" valuecolor="darkgoldenrod" maxrollvalue="12"></die-3d>
+        <die-3d bgcolor="rgba(90, 90, 255, 0.85)" valuecolor="#fff" maxrollvalue="10"></die-3d>
+        <die-3d bgcoloreven="rgba(255, 65, 65, 0.8)" bgcolorodd="rgba(255, 30, 30, 0.8)" valuecolor="#fff" maxrollvalue="8"></die-3d>
+        <die-3d bgcoloreven="linear-gradient(rgba(65, 65, 65, 0.8), rgba(25, 25, 25, 0.8), rgba(75, 75, 75, 0.8), rgba(45, 45, 45, 0.8))" valuecolor="goldenrod" maxrollvalue="6"></die-3d>
+        <die-3d bgcoloreven="rgba(200, 200, 200, 0.8)" bgcolorodd="rgba(230, 230, 230, 0.8)" valuecolor="#666" maxrollvalue="4"></die-3d>
     </div>
 
     <div>
@@ -217,14 +327,14 @@ import 'dice-webcomponent';
     </div>
 
     <div>
-        <h1 title="Disabled because no more rolls are possible. Default allows 10.000 rolls.">Disabled</h1>
+        <h1 title="Disabled because no more rolls are possible. The D8, D6 and D4 allow one roll and then disable themselves. If no value is set, it allows 10.000 rolls and then disables.">Disabled</h1>
 <pre><code>
 &lt;die-3d allowedrolls="0">&lt;/die-3d>
 &lt;die-3d allowedrolls="0" maxrollvalue="12">&lt;/die-3d>
 &lt;die-3d allowedrolls="0" maxrollvalue="10">&lt;/die-3d>
-&lt;die-3d allowedrolls="0" maxrollvalue="8">&lt;/die-3d>
-&lt;die-3d allowedrolls="0" maxrollvalue="6">&lt;/die-3d>
-&lt;die-3d allowedrolls="0" maxrollvalue="4">&lt;/die-3d>
+&lt;die-3d allowedrolls="1" maxrollvalue="8">&lt;/die-3d>
+&lt;die-3d allowedrolls="1" maxrollvalue="6">&lt;/die-3d>
+&lt;die-3d allowedrolls="1" maxrollvalue="4">&lt;/die-3d>
 </code></pre>
         <die-3d allowedrolls="0"></die-3d>
         <die-3d allowedrolls="0" maxrollvalue="12"></die-3d>
@@ -309,7 +419,7 @@ document.getElementById('tray-button').addEventListener('click', () => {
 
         <die-3d maxrollvalue="4" style="position:absolute;top:70%;left:30%;width:80px;height:80px;pointer-events: none;"></die-3d>
         <die-3d maxrollvalue="6" style="position:absolute;top:30%;left:60%;width:80px;height:80px;pointer-events: none;"></die-3d>
-        <die-3d maxrollvalue="8" style="position:absolute;top:10%;left:10%;width:80px;height:80px;pointer-events: none;"></die-3d>
+        <die-3d maxrollvalue="8" style="position:absolute;top:15%;left:10%;width:80px;height:80px;pointer-events: none;"></die-3d>
         <die-3d maxrollvalue="10" style="position:absolute;top:50%;left:8%;width:80px;height:80px;pointer-events: none;"></die-3d>
         <die-3d maxrollvalue="12" style="position:absolute;top:60%;left:60%;width:80px;height:80px;pointer-events: none;"></die-3d>
         <die-3d style="position:absolute;top:3%;left:40%;width:80px;height:80px;pointer-events: none;"></die-3d>

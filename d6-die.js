@@ -40,7 +40,7 @@ export class D6Die {
   width: calc(var(--die-size) / 5);
   height: calc(var(--die-size) / 5);
   border-radius: 50%;
-  background: var(--dot-color);
+  background: var(--value-color);
   left: 25%;
   top: 25%;
   transform: translate(-50%, -50%);
@@ -52,23 +52,23 @@ export class D6Die {
 }
 
 .face-2:after {
-  box-shadow: calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--dot-color);
+  box-shadow: calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--value-color);
 }
 
 .face-3:after {
-  box-shadow: calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--dot-color), calc(var(--die-size) / 4) calc(var(--die-size) / 4) var(--dot-color);
+  box-shadow: calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--value-color), calc(var(--die-size) / 4) calc(var(--die-size) / 4) var(--value-color);
 }
 
 .face-4:after {
-  box-shadow: 0 calc(var(--die-size) / 2) var(--dot-color), calc(var(--die-size) / 2) 0 var(--dot-color), calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--dot-color);
+  box-shadow: 0 calc(var(--die-size) / 2) var(--value-color), calc(var(--die-size) / 2) 0 var(--value-color), calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--value-color);
 }
 
 .face-5:after {
-  box-shadow: 0 calc(var(--die-size) / 2) var(--dot-color), calc(var(--die-size) / 2) 0 var(--dot-color), calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--dot-color), calc(var(--die-size) / 4) calc(var(--die-size) / 4) var(--dot-color);
+  box-shadow: 0 calc(var(--die-size) / 2) var(--value-color), calc(var(--die-size) / 2) 0 var(--value-color), calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--value-color), calc(var(--die-size) / 4) calc(var(--die-size) / 4) var(--value-color);
 }
 
 .face-6:after {
-  box-shadow: 0 calc(var(--die-size) / 2) var(--dot-color), calc(var(--die-size) / 2) 0 var(--dot-color), calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--dot-color), 0 calc(var(--die-size) / 4) var(--dot-color), calc(var(--die-size) / 2) calc(var(--die-size) / 4) var(--dot-color);
+  box-shadow: 0 calc(var(--die-size) / 2) var(--value-color), calc(var(--die-size) / 2) 0 var(--value-color), calc(var(--die-size) / 2) calc(var(--die-size) / 2) var(--value-color), 0 calc(var(--die-size) / 4) var(--value-color), calc(var(--die-size) / 2) calc(var(--die-size) / 4) var(--value-color);
 }
 
 .face-1 {

@@ -128,7 +128,7 @@ export class D20Die {
   position: absolute;
   top: calc(var(--die-size) / 10);
   left: calc(var(--die-size) / -2);
-  color: var(--dot-color);
+  color: var(--value-color);
   font-size: calc(var(--die-size) / 6);
   text-align: center;
   line-height: calc(var(--die-size) / 2.5);

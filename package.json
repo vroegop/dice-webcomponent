@@ -1,25 +1,33 @@
 {
-  "name": "dice-webcomponent",
+  "name": "die-3d",
   "version": "1.0.1",
-  "description": "Allows easy creation of a working D6 die without external libraries or dependencies",
+  "description": "Create dice: D20, D12, D10, D8, D6, D4. Easily usable die as a native webcomponent in any framework or even without!",
   "main": "die.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vroegop/d6-webcomponent.git"
+    "url": "git+https://github.com/vroegop/dice-webcomponent.git"
   },
   "keywords": [
+    "d4",
     "d6",
+    "d8",
+    "d12",
+    "d20",
+    "d10",
     "dnd",
     "die",
-    "dice"
+    "dice",
+    "game",
+    "3d",
+    "webcomponent"
   ],
   "author": "Randy Vroegop",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vroegop/d6-webcomponent/issues"
+    "url": "https://github.com/vroegop/dice-webcomponent/issues"
   },
-  "homepage": "https://github.com/vroegop/d6-webcomponent#readme"
+  "homepage": "https://github.com/vroegop/dice-webcomponent#readme"
 }

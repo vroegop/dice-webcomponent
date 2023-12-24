@@ -107,7 +107,7 @@ export class D8D4Die {
   position: absolute;
   top: calc(var(--die-size) / 200 * 15);
   left: calc(var(--die-size) / 200 * -52);
-  color: var(--dot-color);
+  color: var(--value-color);
   font-size: calc(var(--die-size) / 4);
   text-align: center;
   line-height: calc(var(--die-size) / 2);

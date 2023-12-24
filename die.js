@@ -22,7 +22,7 @@ class Die3D extends HTMLElement {
     setInitialValues() {
         this.diecoloreven = this.getAttribute('bgcoloreven') || this.getAttribute('bgcolor') || 'goldenrod';
         this.diecolorodd = this.getAttribute('bgcolorodd') || this.getAttribute('bgcolor') || 'darkgoldenrod';
-        this.dotcolor = this.getAttribute('dotcolor') || '#4b4b4b';
+        this.valuecolor = this.getAttribute('valuecolor') || '#4b4b4b';
         this.time = this.getAttribute('time') || '2';
         this.lastNumber = +(this.getAttribute('initialvalue') || 0);
         this.allowedRolls = +(this.getAttribute('allowedrolls') ?? 10000);
@@ -41,7 +41,7 @@ class Die3D extends HTMLElement {
             if (this.isDisabled) {
                 this.style.setProperty('--die-color-even', 'rgb(70, 70, 70)');
                 this.style.setProperty('--die-color-odd', 'rgb(75, 75, 75)');
-                this.style.setProperty('--dot-color', 'rgb(164,164,164)');
+                this.style.setProperty('--value-color', 'rgb(164,164,164)');
             }
             return;
         }
@@ -68,7 +68,7 @@ class Die3D extends HTMLElement {
                 if (this.isDisabled) {
                     this.style.setProperty('--die-color-even', 'rgb(70, 70, 70)');
                     this.style.setProperty('--die-color-odd', 'rgb(75, 75, 75)');
-                    this.style.setProperty('--dot-color', 'rgb(155, 155, 155)');
+                    this.style.setProperty('--value-color', 'rgb(155, 155, 155)');
                 }
             }, this.time * 1000);
         }
@@ -78,7 +78,7 @@ class Die3D extends HTMLElement {
         this.style.setProperty('--roll-time', this.time + 's');
         this.style.setProperty('--die-color-even', this.diecoloreven);
         this.style.setProperty('--die-color-odd', this.diecolorodd);
-        this.style.setProperty('--dot-color', this.dotcolor);
+        this.style.setProperty('--value-color', this.valuecolor);
         this.style.setProperty('--total-rolls', ((+this.totalRolls - 1) * Math.floor((+this.time))) + 'turn');
     }
 
