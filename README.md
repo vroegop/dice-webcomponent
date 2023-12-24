@@ -11,12 +11,12 @@ The code is optimized to lazy-load only the die you request. If you use the D10,
 If you use a JS framework:
 
     import 'dice-webcomponent';
-    &lt;die-3d>&lt;/die-3d>
+    <die-3d></die-3d>
 
 If you use plain HTML:
 
-    &lt;die-3d>&lt;/die-3d>
-    &lt;script src="./die.js">&lt;/script>
+    <die-3d></die-3d>
+    <script src="./die.js"></script>
 
 ## Usage (default):
 
