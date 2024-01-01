@@ -60,7 +60,7 @@ class Die3D extends HTMLElement {
             // Make sure the die always rolls, also if the same value is thrown twice
             this.style.setProperty('--total-rolls', ((+this.totalRolls - 1) * Math.floor((+this.time))) + 'turn');
         }
-        this.isDisabled = this.allowedRolls < 1;
+        this.isDisabled = (this.allowedRolls < 1) || this.isDisabled;
 
         if (this.isDisabled) {
             setTimeout(() => {
