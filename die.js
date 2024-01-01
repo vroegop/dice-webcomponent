@@ -20,15 +20,18 @@ class Die3D extends HTMLElement {
     }
 
     setInitialValues() {
-        this.diecoloreven = this.getAttribute('bgcoloreven') || this.getAttribute('bgcolor') || 'goldenrod';
-        this.diecolorodd = this.getAttribute('bgcolorodd') || this.getAttribute('bgcolor') || 'darkgoldenrod';
-        this.valuecolor = this.getAttribute('valuecolor') || '#4b4b4b';
+        this.diecoloreven = this.getAttribute('bgcoloreven') || this.getAttribute('bgcolor') || 'rgba(255, 155, 0, 0.9)';
+        this.diecolorodd = this.getAttribute('bgcolorodd') || this.getAttribute('bgcolor') || 'rgba(255, 185, 0, 0.9)';
+        this.valuecolor = this.getAttribute('valuecolor') || 'white';
+        this.diecolorevendisabled = this.getAttribute('bgcolorevendisabled') || this.getAttribute('bgcolordisabled') || 'rgba(103,63,0,0.9)';
+        this.diecolorodddisabled = this.getAttribute('bgcolorodddisabled') || this.getAttribute('bgcolordisabled') || 'rgba(100,74,0,0.9)';
+        this.valuecolordisabled = this.getAttribute('valuecolordisabled') || '#000';
         this.time = this.getAttribute('time') || '2';
         this.lastNumber = +(this.getAttribute('initialvalue') || 0);
         this.allowedRolls = +(this.getAttribute('allowedrolls') ?? 10000);
         this.minrollvalue = +(this.getAttribute('minrollvalue') ?? 1);
         this.maxrollvalue = +(this.getAttribute('maxrollvalue') ?? 20);
-        this.isDisabled = this.allowedRolls < 1;
+        this.isDisabled = this.allowedRolls < 1 || this.getAttribute('disabled') !== null;
         this.totalRolls = 0;
     }
 
@@ -38,11 +41,7 @@ class Die3D extends HTMLElement {
             // Set the title so hovering the cursor shows the value as a number
             this.setAttribute('title', this.lastNumber);
             this.shadowRoot.getElementById('die').setAttribute('data-face', this.lastNumber);
-            if (this.isDisabled) {
-                this.style.setProperty('--die-color-even', 'rgb(70, 70, 70)');
-                this.style.setProperty('--die-color-odd', 'rgb(75, 75, 75)');
-                this.style.setProperty('--value-color', 'rgb(164,164,164)');
-            }
+            this.checkDisabledAndStyle();
             return;
         }
         // If no default value is set, we will simply roll a new value and count the allowed rolls
@@ -65,12 +64,16 @@ class Die3D extends HTMLElement {
 
         if (this.isDisabled) {
             setTimeout(() => {
-                if (this.isDisabled) {
-                    this.style.setProperty('--die-color-even', 'rgb(70, 70, 70)');
-                    this.style.setProperty('--die-color-odd', 'rgb(75, 75, 75)');
-                    this.style.setProperty('--value-color', 'rgb(155, 155, 155)');
-                }
+                this.checkDisabledAndStyle();
             }, this.time * 1000);
+        }
+    }
+
+    checkDisabledAndStyle() {
+        if (this.isDisabled) {
+            this.style.setProperty('--die-color-even', this.diecolorevendisabled);
+            this.style.setProperty('--die-color-odd', this.diecolorodddisabled);
+            this.style.setProperty('--value-color', this.valuecolordisabled);
         }
     }
 
@@ -79,6 +82,9 @@ class Die3D extends HTMLElement {
         this.style.setProperty('--die-color-even', this.diecoloreven);
         this.style.setProperty('--die-color-odd', this.diecolorodd);
         this.style.setProperty('--value-color', this.valuecolor);
+        this.style.setProperty('--die-color-even-disabled', this.diecolorevendisabled);
+        this.style.setProperty('--die-color-odd-disabled', this.diecolorodddisabled);
+        this.style.setProperty('--value-color-disabled', this.valuecolordisabled);
         this.style.setProperty('--total-rolls', ((+this.totalRolls - 1) * Math.floor((+this.time))) + 'turn');
     }
 
