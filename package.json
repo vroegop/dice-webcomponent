@@ -1,6 +1,6 @@
 {
   "name": "die-3d",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Create dice: D20, D12, D10, D8, D6, D4. Easily usable die as a native webcomponent in any framework or even without!",
   "main": "die.js",
   "scripts": {

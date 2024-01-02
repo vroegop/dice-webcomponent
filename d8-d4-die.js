@@ -17,6 +17,27 @@ export class D8D4Die {
     static getCss() {
         return `
 <style>
+:host, :host * {
+  transform-style: preserve-3d;
+}
+
+:host {
+  transform: translateZ(calc((var(--die-size) * 0.6)));
+}
+                
+:host:before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, -50px);
+    width: 200px;
+    height: 200px;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.8), transparent, transparent);
+    border-radius: 50%;
+}
+
 #die {
   width: var(--die-size);
   height: var(--die-size);

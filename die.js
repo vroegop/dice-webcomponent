@@ -20,17 +20,18 @@ class Die3D extends HTMLElement {
     }
 
     setInitialValues() {
-        this.diecoloreven = this.getAttribute('bgcoloreven') || this.getAttribute('bgcolor') || 'rgba(255, 155, 0, 0.9)';
-        this.diecolorodd = this.getAttribute('bgcolorodd') || this.getAttribute('bgcolor') || 'rgba(255, 185, 0, 0.9)';
-        this.valuecolor = this.getAttribute('valuecolor') || 'white';
-        this.diecolorevendisabled = this.getAttribute('bgcolorevendisabled') || this.getAttribute('bgcolordisabled') || 'rgba(103,63,0,0.9)';
-        this.diecolorodddisabled = this.getAttribute('bgcolorodddisabled') || this.getAttribute('bgcolordisabled') || 'rgba(100,74,0,0.9)';
-        this.valuecolordisabled = this.getAttribute('valuecolordisabled') || '#000';
+        this.diecoloreven = this.getAttribute('color-bg-even') || this.getAttribute('color-bg') || 'rgba(255, 155, 0, 0.9)';
+        this.diecolorodd = this.getAttribute('color-bg-odd') || this.diecoloreven;
+        this.contrastActive = this.getAttribute('contrast-active') || '500%';
+        this.valuecolor = this.getAttribute('color-value') || 'white';
+        this.diecolorevendisabled = this.getAttribute('color-bg-even-disabled') || this.getAttribute('color-bg-disabled') || 'rgba(103,63,0,0.9)';
+        this.diecolorodddisabled = this.getAttribute('color-bg-even-disabled') || this.getAttribute('color-bg-disabled') || 'rgba(100,74,0,0.9)';
+        this.valuecolordisabled = this.getAttribute('color-value-disabled') || '#000';
         this.time = this.getAttribute('time') || '2';
-        this.lastNumber = +(this.getAttribute('initialvalue') || 0);
-        this.allowedRolls = +(this.getAttribute('allowedrolls') ?? 10000);
-        this.minrollvalue = +(this.getAttribute('minrollvalue') ?? 1);
-        this.maxrollvalue = +(this.getAttribute('maxrollvalue') ?? 20);
+        this.lastNumber = +(this.getAttribute('value') || 0);
+        this.allowedRolls = +(this.getAttribute('rolls') ?? 10000);
+        this.minrollvalue = +(this.getAttribute('min') ?? 1);
+        this.maxrollvalue = +(this.getAttribute('max') ?? 20);
         this.isDisabled = this.allowedRolls < 1 || this.getAttribute('disabled') !== null;
         this.totalRolls = 0;
     }
@@ -82,9 +83,7 @@ class Die3D extends HTMLElement {
         this.style.setProperty('--die-color-even', this.diecoloreven);
         this.style.setProperty('--die-color-odd', this.diecolorodd);
         this.style.setProperty('--value-color', this.valuecolor);
-        this.style.setProperty('--die-color-even-disabled', this.diecolorevendisabled);
-        this.style.setProperty('--die-color-odd-disabled', this.diecolorodddisabled);
-        this.style.setProperty('--value-color-disabled', this.valuecolordisabled);
+        this.style.setProperty('--contrast-active', this.contrastActive);
         this.style.setProperty('--total-rolls', ((+this.totalRolls - 1) * Math.floor((+this.time))) + 'turn');
     }
 
@@ -113,6 +112,17 @@ class Die3D extends HTMLElement {
                   display:inline-block;
                   font-family: arial;
                 }
+                
+                :host * {
+                    user-select: none;
+                }
+
+                ${[...Array(this.maxrollvalue)].map((_, i) => `
+                #die[data-face="${i + 1}"] .face-${i + 1} { 
+                  transition: filter var(--roll-time) ease 2s; 
+                  filter: contrast(var(--contrast-active)); 
+                }
+                `).join(' ')}
             </style>
         `;
     }
