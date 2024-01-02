@@ -166,6 +166,9 @@ import 'die-3d';
         color-bg-even="#333333"
         color-bg-odd="rgba(70,70,70,0.8)"
         color-value="goldenrod"
+        color-bg-even-disabled="#333333"
+        color-bg-odd-disabled="rgba(70,70,70,0.8)"
+        color-value-disabled="goldenrod"
         rolls="1"
         time="3"
 >
@@ -177,12 +180,15 @@ import 'die-3d';
             <label>Even Background Color: <input type="text" id="color-bg-even" value="#333333"></label><br>
             <label>Odd Background Color: <input type="text" id="color-bg-odd" value="rgba(70,70,70,0.8)"></label><br>
             <label>Value Color: <input type="text" id="color-value" value="goldenrod"></label><br>
+            <label>Even Background Color Disabled: <input type="text" id="color-bg-even-disabled" value="#333333"></label><br>
+            <label>Odd Background Color Disabled: <input type="text" id="color-bg-odd-disabled" value="rgba(70,70,70,0.8)"></label><br>
+            <label>Value Color Disabled: <input type="text" id="color-value-disabled" value="goldenrod"></label><br>
             <label>Allowed Rolls: <input type="number" id="rolls" value="1"></label><br>
             <label>Time: <input type="number" id="time" value="3"></label><br>
             <button onclick="updateDie();">Update die</button>
 
             <span id="editable-die">
-                <die-3d id="die3D" min="1" max="20" value="1"  color-bg-even="#333" color-bg-odd="rgba(70,70,70,0.8)" color-value="goldenrod" rolls="1" time="3"></die-3d>
+                <die-3d id="die3D" min="1" max="20" value="1" color-bg-even="#333" color-bg-odd="rgba(70,70,70,0.8)" color-value="goldenrod" rolls="1" time="3"></die-3d>
             </span>
         </div>
     </div>
@@ -199,6 +205,9 @@ import 'die-3d';
             die.setAttribute("color-bg-even", document.getElementById("color-bg-even").value);
             die.setAttribute("color-bg-odd", document.getElementById("color-bg-odd").value);
             die.setAttribute("color-value", document.getElementById("color-value").value);
+            die.setAttribute("color-bg-even-disabled", document.getElementById("color-bg-even-disabled").value);
+            die.setAttribute("color-bg-odd-disabled", document.getElementById("color-bg-odd-disabled").value);
+            die.setAttribute("color-value-disabled", document.getElementById("color-value-disabled").value);
             die.setAttribute("rolls", document.getElementById("rolls").value);
             die.setAttribute("time", document.getElementById("time").value);
 

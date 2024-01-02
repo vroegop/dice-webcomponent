@@ -1,27 +1,6 @@
-## 3D animated dice!
+# 3D animated dice, tray included!
 
-## Live demo
-
-https://codepen.io/rjpvroegop/pen/BabBQKQ
-
-## Usage (default):
-
-    <die-3d></die-3d>
-    <die-3d maxrollvalue="12"></die-3d>
-    <die-3d maxrollvalue="10"></die-3d>
-    <die-3d maxrollvalue="8"></die-3d>
-    <die-3d maxrollvalue="6"></die-3d>
-    <die-3d maxrollvalue="4"></die-3d>
-
-## Usage with all options:
-
-    <die-3d minrollvalue="1" maxrollvalue="20" initialvalue="20"  bgcoloreven="#333" bgcolorodd="rgba(70, 70, 70, 0.8)" dotcolor="goldenrod" allowedrolls="1" time="3"></die-3d>
-
-The code is optimized to lazy-load only the die you request.
-
-No minification is applied, the code is easy to read and adjust to your needs!
-
-## Installation
+The code is optimized to lazy-load only the die you request. If you use the D10, the D20, D12 and other dice code are not fetched by the browser.
 
 If you use a JS framework:
 
@@ -30,7 +9,32 @@ If you use a JS framework:
 
 If you use plain HTML:
 
-    <die-3d></die-3d>
-    <script src="node_modules/die-3d/die.js"></script>
+    <dice-tray>
+        <die-3d></die-3d>
+        <die-3d max="12"></die-3d>
+        <die-3d max="10"></die-3d>
+        <die-3d max="8"></die-3d>
+        <die-3d max="6"></die-3d>
+        <die-3d max="4"></die-3d>
+    </dice-tray>
+    <script src="./dice-tray.js" type="module"></script>
 
-https://www.npmjs.com/package/dice-webcomponent
+All options:
+
+    <die-3d
+        min="1"
+        max="20"
+        value="1"
+        color-bg-even="#333333"
+        color-bg-odd="rgba(70,70,70,0.8)"
+        color-value="goldenrod"
+        rolls="1"
+        time="3"
+        disabled
+        color-bg-even-disabled="rgba(103,63,0,0.9)"
+        color-bg-odd-disabled="rgba(103,63,0,0.8)"
+        color-value-disabled="#000"
+        contrast-active="500%"
+    >
+    </die-3d>
+

@@ -24,8 +24,8 @@ class Die3D extends HTMLElement {
         this.diecolorodd = this.getAttribute('color-bg-odd') || this.diecoloreven;
         this.contrastActive = this.getAttribute('contrast-active') || '500%';
         this.valuecolor = this.getAttribute('color-value') || 'white';
-        this.diecolorevendisabled = this.getAttribute('color-bg-even-disabled') || this.getAttribute('color-bg-disabled') || 'rgba(103,63,0,0.9)';
-        this.diecolorodddisabled = this.getAttribute('color-bg-even-disabled') || this.getAttribute('color-bg-disabled') || 'rgba(100,74,0,0.9)';
+        this.diecolorevendisabled = this.getAttribute('color-bg-even-disabled') || this.getAttribute('color-bg-disabled') || 'rgba(135, 135, 135, 1)';
+        this.diecolorodddisabled = this.getAttribute('color-bg-odd-disabled') || this.diecolorevendisabled;
         this.valuecolordisabled = this.getAttribute('color-value-disabled') || '#000';
         this.time = this.getAttribute('time') || '2';
         this.lastNumber = +(this.getAttribute('value') || 0);
