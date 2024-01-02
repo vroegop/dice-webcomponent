@@ -11,8 +11,6 @@ class Die3D extends HTMLElement {
         this.setCssParameters();
         // Render HTML and CSS
         await this.render();
-        // Size is a CSS variable but can only be determined after rendering. This will cause an animation.
-        this.setSize();
         // Call rollDice once with this.lastNumber to set a default value set on the component or 0
         this.rollDie(this.lastNumber);
         // Actually roll the die :)
@@ -87,10 +85,6 @@ class Die3D extends HTMLElement {
         this.style.setProperty('--total-rolls', ((+this.totalRolls - 1) * Math.floor((+this.time))) + 'turn');
     }
 
-    setSize() {
-        this.style.setProperty('--die-size',  (this.clientHeight || 120) + 'px');
-    }
-
     async render() {
         let dieCode = '';
         if (this.maxrollvalue > 12) {
@@ -111,6 +105,7 @@ class Die3D extends HTMLElement {
                   position:relative;
                   display:inline-block;
                   font-family: arial;
+                  --die-size: 120px;
                 }
                 
                 :host * {
