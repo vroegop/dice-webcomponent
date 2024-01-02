@@ -197,4 +197,4 @@ class DiceTray extends HTMLElement {
     }
 }
 
-customElements.define('dice-tray', DiceTray);
+customElements.define('dice-tray-3d', DiceTray);
