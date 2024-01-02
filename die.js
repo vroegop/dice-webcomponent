@@ -105,7 +105,6 @@ class Die3D extends HTMLElement {
                   position:relative;
                   display:inline-block;
                   font-family: arial;
-                  --die-size: 120px;
                 }
                 
                 :host * {
