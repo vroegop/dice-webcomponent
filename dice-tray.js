@@ -79,7 +79,7 @@ class DiceTray3D extends HTMLElement {
 </div>
 <style>
     :host {
-      --tray-width: 600px;
+      --tray-width: ${((this.shadowRoot.host.clientWidth || document.querySelector('body').clientWidth) * 0.8) + 'px'};
       --die-size: calc(var(--tray-width) / 5);
       position:relative;
       display:inline-block;
@@ -136,7 +136,7 @@ class DiceTray3D extends HTMLElement {
         flex-wrap: wrap;
         align-items: center;
         justify-content: space-around;
-        gap: 20px;
+        gap: calc(var(--die-size, 90px) / 6);
     }
     
     /** the inside of the tray side **/

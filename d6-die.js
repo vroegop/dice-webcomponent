@@ -21,9 +21,9 @@ export class D6Die {
 }
 
 :host {
-  transform: translateZ(calc((var(--die-size) * 0.6)));
-  --face-size: calc(var(--die-size) * 0.7);
-  padding: calc(var(--die-size) * 0.15);
+  transform: translateZ(calc((var(--die-size, 90px) * 0.6)));
+  --face-size: calc(var(--die-size, 90px) * 0.7);
+  padding: calc(var(--die-size, 90px) * 0.15);
   height: var(--face-size);
   width: var(--face-size);
   display: inline-block;
@@ -35,7 +35,7 @@ export class D6Die {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate3d(-50%, -50%, calc(var(--die-size) * -0.6));
+    transform: translate3d(-50%, -50%, calc(var(--die-size, 90px) * -0.6));
     width: 200px;
     height: 200px;
     background-image: radial-gradient(rgba(0, 0, 0, 0.8), transparent, transparent);

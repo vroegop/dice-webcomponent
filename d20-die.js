@@ -34,7 +34,7 @@ export class D20Die {
 }
 
 :host {
-  transform: translateZ(calc((var(--die-size) * 0.51)));
+  transform: translateZ(calc((var(--die-size, 90px) * 0.51)));
 }
                 
 :host:before {
@@ -43,7 +43,7 @@ export class D20Die {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate3d(-50%, -50%, calc(var(--die-size) * -0.5));
+    transform: translate3d(-50%, -50%, calc(var(--die-size, 90px) * -0.5));
     width: 200px;
     height: 200px;
     background-image: radial-gradient(rgba(0, 0, 0, 0.8), transparent, transparent);
@@ -51,19 +51,19 @@ export class D20Die {
 }
 
 #die {
-  width: var(--die-size);
-  height: var(--die-size);
+  width: var(--die-size, 90px);
+  height: var(--die-size, 90px);
   transform-style: preserve-3d;
   transition: transform var(--roll-time) ease-out;
   cursor: pointer;
   transform: rotateX(-210deg) rotateY(25deg) rotateZ(0);
   scale: 1.25;
   
-    --size-small: calc(var(--die-size) / 200 * 33.5);
-    --size-negative: calc(var(--die-size) / 200 * -12.9);
-    --size-large: calc(var(--die-size) / 200 * 121.26);
-    --size-medium: calc(var(--die-size) / 200 * 54.18);
-    --size-standard: calc(var(--die-size) / 200 * 75);
+    --size-small: calc(var(--die-size, 90px) / 200 * 33.5);
+    --size-negative: calc(var(--die-size, 90px) / 200 * -12.9);
+    --size-large: calc(var(--die-size, 90px) / 200 * 121.26);
+    --size-medium: calc(var(--die-size, 90px) / 200 * 54.18);
+    --size-standard: calc(var(--die-size, 90px) / 200 * 75);
 }
 #die:not([data-face]) {
     transform: rotateX(1turn) rotateY(1turn) rotateZ(0deg);
@@ -132,10 +132,10 @@ export class D20Die {
   position: absolute;
   left: 50%;
   top: 0;
-  margin: 0 calc(calc(var(--die-size) / -4));
-  border-left: calc(var(--die-size) / 4) solid transparent;
-  border-right: calc(var(--die-size) / 4) solid transparent;
-  border-bottom: calc(var(--die-size) / 100 * 43) solid var(--die-color-even);
+  margin: 0 calc(calc(var(--die-size, 90px) / -4));
+  border-left: calc(var(--die-size, 90px) / 4) solid transparent;
+  border-right: calc(var(--die-size, 90px) / 4) solid transparent;
+  border-bottom: calc(var(--die-size, 90px) / 100 * 43) solid var(--die-color-even);
   width: 0px;
   height: 0px;
   transform-style: preserve-3d;
@@ -147,81 +147,81 @@ export class D20Die {
 #die .face:before {
   content: counter(steps);
   position: absolute;
-  top: calc(var(--die-size) / 10);
-  left: calc(var(--die-size) / -2);
+  top: calc(var(--die-size, 90px) / 10);
+  left: calc(var(--die-size, 90px) / -2);
   color: var(--value-color);
-  font-size: calc(var(--die-size) / 6);
+  font-size: calc(var(--die-size, 90px) / 6);
   text-align: center;
-  line-height: calc(var(--die-size) / 2.5);
-  width: var(--die-size);
-  height: calc(var(--die-size) / 2);
+  line-height: calc(var(--die-size, 90px) / 2.5);
+  width: var(--die-size, 90px);
+  height: calc(var(--die-size, 90px) / 2);
 }
 #die .face:nth-child(6):before, #die .face:nth-child(9):before {
   text-decoration: underline;
 }
 #die .face:nth-child(1):before, #die .face:nth-child(20):before {
   font-weight: bold;
-  font-size: calc(var(--die-size) / 5);
+  font-size: calc(var(--die-size, 90px) / 5);
 }
 #die .face:nth-child(1) {
-  transform: rotateY(0deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * -12.9)) rotateX(53deg);
+  transform: rotateY(0deg) translateZ(calc(var(--die-size, 90px) / 200 * 33.5)) translateY(calc(var(--die-size, 90px) / 200 * -12.9)) rotateX(53deg);
 }
 #die .face:nth-child(2) {
-  transform: rotateY(-72deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * -12.9)) rotateX(53deg);
+  transform: rotateY(-72deg) translateZ(calc(var(--die-size, 90px) / 200 * 33.5)) translateY(calc(var(--die-size, 90px) / 200 * -12.9)) rotateX(53deg);
 }
 #die .face:nth-child(3) {
-  transform: rotateY(-144deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * -12.9)) rotateX(53deg);
+  transform: rotateY(-144deg) translateZ(calc(var(--die-size, 90px) / 200 * 33.5)) translateY(calc(var(--die-size, 90px) / 200 * -12.9)) rotateX(53deg);
 }
 #die .face:nth-child(4) {
-  transform: rotateY(-216deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * -12.9)) rotateX(53deg);
+  transform: rotateY(-216deg) translateZ(calc(var(--die-size, 90px) / 200 * 33.5)) translateY(calc(var(--die-size, 90px) / 200 * -12.9)) rotateX(53deg);
 }
 #die .face:nth-child(5) {
-  transform: rotateY(-288deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * -12.9)) rotateX(53deg);
+  transform: rotateY(-288deg) translateZ(calc(var(--die-size, 90px) / 200 * 33.5)) translateY(calc(var(--die-size, 90px) / 200 * -12.9)) rotateX(53deg);
 }
 #die .face:nth-child(6) {
-  transform: rotateY(360deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateZ(180deg) rotateX(-11deg);
+  transform: rotateY(360deg) translateZ(calc(var(--die-size, 90px) / 200 * 75)) translateY(calc(var(--die-size, 90px) / 200 * 54.18)) rotateZ(180deg) rotateX(-11deg);
 }
 #die .face:nth-child(7) {
-  transform: rotateY(288deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateZ(180deg) rotateX(-11deg);
+  transform: rotateY(288deg) translateZ(calc(var(--die-size, 90px) / 200 * 75)) translateY(calc(var(--die-size, 90px) / 200 * 54.18)) rotateZ(180deg) rotateX(-11deg);
 }
 #die .face:nth-child(8) {
-  transform: rotateY(216deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateZ(180deg) rotateX(-11deg);
+  transform: rotateY(216deg) translateZ(calc(var(--die-size, 90px) / 200 * 75)) translateY(calc(var(--die-size, 90px) / 200 * 54.18)) rotateZ(180deg) rotateX(-11deg);
 }
 #die .face:nth-child(9) {
-  transform: rotateY(144deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateZ(180deg) rotateX(-11deg);
+  transform: rotateY(144deg) translateZ(calc(var(--die-size, 90px) / 200 * 75)) translateY(calc(var(--die-size, 90px) / 200 * 54.18)) rotateZ(180deg) rotateX(-11deg);
 }
 #die .face:nth-child(10) {
-  transform: rotateY(72deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateZ(180deg) rotateX(-11deg);
+  transform: rotateY(72deg) translateZ(calc(var(--die-size, 90px) / 200 * 75)) translateY(calc(var(--die-size, 90px) / 200 * 54.18)) rotateZ(180deg) rotateX(-11deg);
 }
 #die .face:nth-child(11) {
-  transform: rotateY(252deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateX(-11deg);
+  transform: rotateY(252deg) translateZ(calc(var(--die-size, 90px) / 200 * 75)) translateY(calc(var(--die-size, 90px) / 200 * 54.18)) rotateX(-11deg);
 }
 #die .face:nth-child(12) {
-  transform: rotateY(324deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateX(-11deg);
+  transform: rotateY(324deg) translateZ(calc(var(--die-size, 90px) / 200 * 75)) translateY(calc(var(--die-size, 90px) / 200 * 54.18)) rotateX(-11deg);
 }
 #die .face:nth-child(13) {
-  transform: rotateY(396deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateX(-11deg);
+  transform: rotateY(396deg) translateZ(calc(var(--die-size, 90px) / 200 * 75)) translateY(calc(var(--die-size, 90px) / 200 * 54.18)) rotateX(-11deg);
 }
 #die .face:nth-child(14) {
-  transform: rotateY(468deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateX(-11deg);
+  transform: rotateY(468deg) translateZ(calc(var(--die-size, 90px) / 200 * 75)) translateY(calc(var(--die-size, 90px) / 200 * 54.18)) rotateX(-11deg);
 }
 #die .face:nth-child(15) {
-  transform: rotateY(540deg) translateZ(calc(var(--die-size) / 200 * 75)) translateY(calc(var(--die-size) / 200 * 54.18)) rotateX(-11deg);
+  transform: rotateY(540deg) translateZ(calc(var(--die-size, 90px) / 200 * 75)) translateY(calc(var(--die-size, 90px) / 200 * 54.18)) rotateX(-11deg);
 }
 #die .face:nth-child(16) {
-  transform: rotateY(-108deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * 121.26)) rotateZ(180deg) rotateX(53deg);
+  transform: rotateY(-108deg) translateZ(calc(var(--die-size, 90px) / 200 * 33.5)) translateY(calc(var(--die-size, 90px) / 200 * 121.26)) rotateZ(180deg) rotateX(53deg);
 }
 #die .face:nth-child(17) {
-  transform: rotateY(-36deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * 121.26)) rotateZ(180deg) rotateX(53deg);
+  transform: rotateY(-36deg) translateZ(calc(var(--die-size, 90px) / 200 * 33.5)) translateY(calc(var(--die-size, 90px) / 200 * 121.26)) rotateZ(180deg) rotateX(53deg);
 }
 #die .face:nth-child(18) {
-  transform: rotateY(36deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * 121.26)) rotateZ(180deg) rotateX(53deg);
+  transform: rotateY(36deg) translateZ(calc(var(--die-size, 90px) / 200 * 33.5)) translateY(calc(var(--die-size, 90px) / 200 * 121.26)) rotateZ(180deg) rotateX(53deg);
 }
 #die .face:nth-child(19) {
-  transform: rotateY(108deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * 121.26)) rotateZ(180deg) rotateX(53deg);
+  transform: rotateY(108deg) translateZ(calc(var(--die-size, 90px) / 200 * 33.5)) translateY(calc(var(--die-size, 90px) / 200 * 121.26)) rotateZ(180deg) rotateX(53deg);
 }
 #die .face:nth-child(20) {
-  transform: rotateY(180deg) translateZ(calc(var(--die-size) / 200 * 33.5)) translateY(calc(var(--die-size) / 200 * 121.26)) rotateZ(180deg) rotateX(53deg);
+  transform: rotateY(180deg) translateZ(calc(var(--die-size, 90px) / 200 * 33.5)) translateY(calc(var(--die-size, 90px) / 200 * 121.26)) rotateZ(180deg) rotateX(53deg);
 }
 </style>
 `
