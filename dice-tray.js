@@ -1,6 +1,6 @@
 import './die.js';
 
-class DiceTray extends HTMLElement {
+class DiceTray3D extends HTMLElement {
     constructor() {
         super();
     }
@@ -197,4 +197,4 @@ class DiceTray extends HTMLElement {
     }
 }
 
-customElements.define('dice-tray-3d', DiceTray);
+customElements.define('dice-tray-3d', DiceTray3D);
