@@ -18,7 +18,7 @@ class Die3D extends HTMLElement {
     }
 
     setInitialValues() {
-        this.diecoloreven = this.getAttribute('color-bg-even') || this.getAttribute('color-bg') || 'rgba(255, 155, 0, 0.9)';
+        this.diecoloreven = this.getAttribute('color-bg-even') || this.getAttribute('color-bg') || 'rgba(70,70,70,0.9)';
         this.diecolorodd = this.getAttribute('color-bg-odd') || this.diecoloreven;
         this.contrastActive = this.getAttribute('contrast-active') || '500%';
         this.valuecolor = this.getAttribute('color-value') || 'white';

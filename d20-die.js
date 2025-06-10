@@ -46,7 +46,6 @@ export class D20Die {
     transform: translate3d(-50%, -50%, calc(var(--die-size, 90px) * -0.5));
     width: 200px;
     height: 200px;
-    background-image: radial-gradient(rgba(0, 0, 0, 0.8), transparent, transparent);
     border-radius: 50%;
 }
 

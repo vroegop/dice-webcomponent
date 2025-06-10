@@ -34,7 +34,6 @@ export class D8D4Die {
     transform: translate3d(-50%, -50%, -50px);
     width: 200px;
     height: 200px;
-    background-image: radial-gradient(rgba(0, 0, 0, 0.8), transparent, transparent);
     border-radius: 50%;
 }
 

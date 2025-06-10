@@ -144,7 +144,7 @@ class DiceTray3D extends HTMLElement {
       position: absolute;
       width: calc(var(--tray-side) + 2px);
       height: 100px;
-      background-image: linear-gradient(saddlebrown, sienna);
+      background-image: linear-gradient(saddlebrown, sienna, saddlebrown, #33333399);
       top: -100px;
       transform-origin: left bottom;
       left: calc(50% - 1px);
